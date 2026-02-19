@@ -1,0 +1,230 @@
+Ecco il **Master Design Document (MDD) v7.0 - Integrated Definitive Edition**.
+
+Questo documento è il risultato della fusione intelligente e senza perdite di tutto il corpus documentale precedente (`Technical Masterplan v6.0`, `MDD v5.0`, `Focus Moduli Specifici`). È strutturato per essere la **Bibbia del Prodotto**, autosufficiente e granulare, coprendo dalla visione strategica all'implementazione tecnica dei singoli widget.
+
+---
+
+# QWIKKEN: The Cognitive Operating System
+## Master Design Document (MDD) v7.0
+**Piattaforma:** Egemon OS (MMS Kernel)
+**Infrastruttura:** Google Cloud Platform (GCP)
+**Paradigma:** Sovereign, Deterministic & Compliant AI
+
+---
+
+# PARTE I: VISIONE E ARCHITETTURA FONDANTE
+
+## 1. Visione Sistemica & Polimorfismo
+QWIKKEN non è una semplice applicazione verticale ("App per studenti"), ma un'infrastruttura software (**Sistema Operativo Cognitivo**) progettata per gestire il ciclo di vita della conoscenza dell'individuo (Lifelong Learning).
+
+L'architettura è **Polimorfica**: un unico motore (Backend) supporta diverse "Classi di Dominio" (Frontend/Regole).
+*   **Principio Base:** Il software non "sa" a priori se l'utente è uno studente o un avvocato. Lo apprende nella fase di Inizializzazione, caricando il **Genoma** specifico che riconfigura l'intera esperienza.
+*   **Obiettivo:** Trasformare l'AI da "Oracolo Probabilistico" (imprevedibile) a "Processo Deterministico" (governato e sicuro), garantendo:
+    1.  **Sovranità Cognitiva:** I dati sono isolati (U-PKL) e proprietà dell'utente.
+    2.  **Governance Etica:** L'AI agisce secondo regole inviolabili (Genoma).
+    3.  **Continuità:** Il sistema evolve da "Supporto allo Studio" a "Supporto Professionale".
+
+---
+
+# PARTE II: FASE 0 - INIZIALIZZAZIONE E SICUREZZA (Gatekeeper)
+
+*Questo layer gestisce l'accesso, l'identità e la configurazione iniziale prima ancora di mostrare la Dashboard.*
+
+## 2.1 Identity & Access Management (IAM)
+*   **Onboarding Sicuro:**
+    *   Supporto nativo **SSO (Single Sign-On)** istituzionale (Google Workspace / Microsoft Entra ID).
+    *   **MFA (Multi-Factor Authentication):** Obbligatoria per profili Istituzionali/Enterprise.
+*   **CRUD Utente:** Gestione completa del profilo, inclusa la *Data Portability* (GDPR) per esportare la propria PKL in formato standard aperto.
+
+## 2.2 Domain Class Selector (Il Bivio)
+Al primo accesso, l'utente o l'istituzione definiscono la classe operativa che setta le variabili globali.
+*   **Classe UNIVERSITY:** Attiva moduli "Esame", "Voto", "Tesi", "Syllabus".
+*   **Classe CORPORATE:** Attiva moduli "Progetto", "KPI", "Report", "Procedure".
+*   **Classe LEGAL/PA:** Attiva moduli "Procedimento", "Compliance", "Atto Amministrativo".
+
+## 2.3 Initial Auto-Assessment (Calibrazione)
+Esecuzione di una scansione dell'utente (**DCA - Dynamic Cognitive Assessment**) specifica per la Classe scelta.
+*   **Assessment Tecnico:** Quiz adattivo per valutare il livello di partenza (es. Matricola vs Dottorando).
+*   **Assessment Psicometrico:** Valutazione dello stile di apprendimento (Visivo, Testuale, Pratico) e della resilienza allo stress.
+*   **Output:** Creazione del `User_Profile_Vector` che calibrerà il comportamento del Tutor (Socrates AI).
+
+## 2.4 Linguistic Matrix Configuration
+Gestione granulare della lingua come variabile operativa.
+*   **System Language:** Lingua dell'interfaccia (Menu, Bottoni).
+*   **Input Language:** Lingua dei documenti sorgente (es. Libri in Inglese).
+*   **Task Language:** Lingua di output desiderata (es. "Scrivi la Tesi in Italiano", "Interrogami in Inglese").
+
+---
+
+# PARTE III: IL MOTORE (KERNEL & REGOLE)
+
+## 3.1 Meta Master System (MMS)
+Il kernel che orchestra l'intelligenza. Non usa un "Chatbot Unico", ma compila micro-agenti al volo.
+*   **Principio:** "Un Intento, Un Artefatto".
+*   **Workflow:**
+    1.  *Input:* Utente chiede "Simula Esame".
+    2.  *Analisi Intento:* MMS capisce che serve severità, non aiuto.
+    3.  *Compilazione:* Crea un agente temporaneo (*The Examiner*) con regole rigide.
+    4.  *Esecuzione & Distruzione:* L'agente esegue il task e viene eliminato per pulire il contesto.
+*   **Admin Console:** Pannello per Istituzioni per configurare i parametri globali.
+
+## 3.2 Gestione del GENOMA (The Configuration Layer)
+File di configurazione gerarchico (`GENOME.yaml`) che definisce il comportamento dell'AI.
+1.  **Genoma Istituzionale (Hard Constraints):** Regole dell'Ente (es. "No Ghostwriting", "Protezione IP Docente"). Gestito via Admin.
+2.  **Genoma di Dominio (Context Rules):** Regole della Materia (es. "In Diritto usa il latino"). Gestito dal Docente.
+3.  **Genoma Personale (Adaptive Style):** Preferenze personali (es. "Sono dislessico"). Gestito dall'utente/DCA.
+
+## 3.3 U-PKL (Unified Personal Knowledge Library)
+Il database ibrido che funge da memoria a lungo termine.
+*   **Struttura:** Vettoriale (Contenuto su Cloud SQL) + Grafo (Relazioni su Neo4j).
+*   **Context Scoping (Permeabilità Selettiva):**
+    *   🟦 **CORSO (Strict Mode):** Accesso limitato ai materiali d'esame. Sicurezza massima.
+    *   🟩 **PKL (Holistic Mode):** Accesso a tutto lo storico personale (cross-materia).
+    *   🟪 **WORLD (Open Mode):** Accesso a Internet (Whitelist) per cultura/lifestyle.
+
+---
+
+# PARTE IV: L'ECOSISTEMA FUNZIONALE (I 4 MODULI)
+
+## MODULO A: SENSORIUM (Ingestione & Analisi)
+*Catturare la realtà e trasformarla in dati strutturati.*
+
+### A.1 Universal Ingestion & CRUD (Snap & Sync)
+*   **Funzione:** Portale d'ingresso per dati non strutturati.
+*   **Tecnologia:** Google Document AI.
+*   **Capacità:** Raddrizzamento foto lavagne, OCR scrittura a mano, parsing PDF complessi.
+*   **CRUD Dati:** Possibilità di modificare, taggare o cancellare ogni singolo nodo creato dall'ingestione.
+
+### A.2 Lecture Weaver (Audio Intelligence)
+Agente di ingestione audio selettiva che opera su tre livelli:
+1.  **Acoustic AI:** Speaker Diarization (Distingue Prof vs Studenti/Rumore).
+2.  **Semantic AI:** Trascrizione contestuale (usa il dizionario specifico del corso).
+3.  **Strategic AI (Smart Tagging):** Rileva enfasi vocale ("Questo lo chiedo all'esame") e inserisce marker rossi 🚩 sulla timeline.
+
+### A.3 DCA - Dynamic Cognitive Assessment
+Metodologia continua per calibrare il sistema corso per corso.
+*   **Zero-Point Interview:** Chat iniziale per valutare familiarità e ansia.
+*   **Gap Analysis Prerequisiti:** Verifica se mancano le basi (es. Matematica per Fisica). Se mancano, inietta moduli di recupero.
+*   **Style Detection:** Identifica lo stile cognitivo (Visivo, Auditivo, Testuale) tramite telemetria.
+
+---
+
+## MODULO B: SYNAPSE (Gestione & Arricchimento)
+*Organizzare la conoscenza e pianificare la vita.*
+
+### B.1 QWIKKEN LIFE PLANNER (Olistico)
+Non un'agenda, ma un "Fluid Tetris".
+*   **Integrazione Reale:** Sync bidirezionale con Google Calendar/Outlook. Rispetta *Hard Blocks* (Lavoro) e *Soft Blocks* (Sport).
+*   **Energy-Aware:** Piazza argomenti difficili (*Deep Work*) negli slot di alta energia e ripassi (*Passive*) negli slot di stanchezza.
+*   **Resilienza Dinamica:** Tasto "Oggi non ce la faccio". Ricalcola il piano spalmando il carico senza colpevolizzare.
+*   **Strategic Pruning:** Se il tempo manca matematicamente, propone di tagliare gli argomenti meno probabili ("Protocollo Sopravvivenza").
+
+### B.2 Nexus Graph (Knowledge Base)
+Interfaccia neurale della PKL.
+*   **Navigazione:** Visualizzazione a grafo (Neo4j).
+*   **Serendipity:** Collega concetti di materie diverse (es. Storia e Diritto).
+*   **Zen Mode:** Visualizzazione Full-Screen per esplorazione profonda e query vocali.
+*   **Lifelong Integration:** Connette nodi accademici con nodi di cultura generale ("World").
+
+### B.3 Web Scout (Autonomous Precision Hunter)
+Cacciatore di precisione per colmare lacune.
+*   **Whitelist Strategy:** Cerca solo su domini approvati dal Genoma (es. .edu, arxiv.org).
+*   **Privacy-Querying:** Sanitizza le query rimuovendo dati sensibili prima di inviarle al motore di ricerca.
+*   **Hallucination Shield:** Triangola le informazioni da più fonti per verificare l'accuratezza.
+*   **Gestione IP:** Rispetta il copyright (sintesi e link) e protegge i materiali del corso dall'esfiltrazione.
+
+### B.4 Syllabus Gap Tracker
+Audit in tempo reale.
+*   Confronta la "Ground Truth" (Syllabus Ufficiale) con il "Current State" (PKL Utente).
+*   Analisi Semantica per identificare concetti coperti, deboli o mancanti (Gap Rossi).
+*   Attiva il Web Scout per colmare i gap proattivamente.
+
+---
+
+## MODULO C: ARENA (Simulazione & Training)
+*Mettersi alla prova in ambiente sicuro.*
+
+### C.1 Socrates AI (Maieutic Tutor)
+Tutor adattivo che guida senza dare la soluzione.
+*   **Format Morphing:** Cambia l'output in base allo stile dell'utente (Mappe mentali per i visivi, Podcast per gli auditivi).
+
+### C.2 Active Linguistic Gym
+Laboratorio di competenza linguistica (Decoupling).
+*   **Cross-Language Flow:** Permette di studiare in L1 (Madrelingua) e simulare l'esame in L2 (Lingua Target).
+*   **Dual-Layer Evaluation:** Il Grader fornisce due voti separati:
+    1.  *Score Tecnico:* Accuratezza del contenuto.
+    2.  *Score Linguistico:* Lessico, grammatica, pronuncia (ESP - English for Specific Purposes).
+*   **Professional Accelerators:** Moduli specifici (es. "Legal English") iniettati nel grafo.
+
+### C.3 The Examiner (Simulator)
+Simulatore d'esame "Hostile".
+*   Modalità Orale (Voice-to-Voice) o Scritta.
+*   Adotta la severità e lo stile del docente reale (definito nel Genoma).
+
+---
+
+## MODULO D: BUILDER (Produzione & Compliance)
+*Produzione di output certificati e conformi AI Act.*
+
+### D.1 Thesis Forge (Sandbox di Scrittura)
+Ambiente di scrittura controllato.
+*   **Sentinel Core (Anti-Ghostwriting Biometrico):** Monitora keystroke dynamics (ritmo, pause, editing) per verificare l'umanità della scrittura.
+*   **Humanity Score:** Calcola in tempo reale la probabilità che il testo sia umano.
+*   **Certificato Genesis:** Genera un file crittografato (`.genesis`) che prova la paternità del testo (Anti-AI Plagiarism).
+
+### D.2 Grade Mirror (Valutazione)
+Specchio della performance.
+*   Predice il voto in 30esimi confrontando la performance con la "Verità" del Syllabus.
+*   Fornisce **Gap Analysis** dettagliata (Precisione, Completezza, Esposizione).
+
+### D.3 Protezione IP & AI Act Compliance
+*   **Inbound Protection:** Gestione automatica citazioni per documenti protetti.
+*   **Outbound Protection:** Watermarking sui documenti generati.
+*   **XAI Logs (Explainable AI):** Tracciamento della fonte o del suggerimento AI che ha ispirato ogni sezione del documento ("AI-Assisted" tagging).
+
+---
+
+# PARTE V: INTERFACCIA UTENTE & UX
+
+## 5.1 Protocollo ACR (Adaptive Cognitive Resonance)
+L'interfaccia muta in base alla maturità dello studente (gestita dal DCA):
+*   **L1 Explorer:** UI Gamificata, Tutor Semplice.
+*   **L2 Analyst:** UI Strutturata, Tutor Formale.
+*   **L3 Strategist:** UI Data-Driven, Tutor Coach.
+*   **L4 Visionary:** UI Minimale, Tutor Critico.
+
+## 5.2 Touch & Learn (Guida Integrata)
+Sistema di onboarding a sfioro. Attivando la "Guida", ogni widget spiega la sua funzione e come utilizzarlo al meglio, senza interrompere il flusso di lavoro.
+
+## 5.3 Dashboard Widget Layout (v9.0 Extended)
+Griglia a scorrimento verticale che ospita:
+*   *Ingestione:* Snap & Sync (Drag & Drop), Lecture Weaver.
+*   *Pianificazione:* Life Planner (con indicatore Life Balance).
+*   *Knowledge:* Nexus Graph (con Zen Mode), Syllabus Gap, Web Scout.
+*   *Simulazione:* Arena Simulator, Grade Mirror.
+*   *Produzione:* Thesis Forge.
+*   *Extra:* Life Balance Widget (Supporto extra-accademico: Musica, Ricette, CV in "World Scope").
+
+---
+
+# PARTE VI: INFRASTRUTTURA TECNOLOGICA & ROADMAP
+
+## 6.1 Google Cloud Stack (Serverless & Scalable)
+*   **Identity:** Cloud Identity / Firebase Auth (SSO, MFA).
+*   **Compute:** Cloud Run (Backend Python/FastAPI + Frontend Next.js).
+*   **AI Kernel:** Vertex AI -> Gemini 1.5 Pro (Long Context per libri), Gemini 1.5 Flash (Speed).
+*   **Database:** Cloud SQL (pgvector) per semantica + Neo4j Aura (GCP) per Grafo.
+*   **Ingestion:** Document AI (OCR) + Speech-to-Text Chirp (Audio).
+*   **Storage:** Cloud Storage (GCS) criptato.
+*   **Security:** Cloud Armor + IAM.
+
+## 6.2 Piano di Realizzazione
+1.  **Mese 1-2 (Foundation):** Setup GCP, MMS Kernel, U-PKL (Neo4j + Vector).
+2.  **Mese 3 (Sensorium):** Pipeline Ingestione, Lecture Weaver, DCA.
+3.  **Mese 4-5 (Skin):** Dashboard Frontend, Life Planner, Integrazione LMS, Thesis Forge.
+4.  **Mese 6 (Launch):** Beta Test "Friends & Family", Validazione Genoma.
+
+---
+
+## CONCLUSIONE
+La versione 7.0 del Master Design Document definisce QWIKKEN come l'infrastruttura definitiva per la **Sovranità Intellettuale Assistita**. Un sistema che non solo supporta lo studio, ma insegna il metodo, gestisce la vita, certifica il risultato e protegge l'istituzione, pronto per scalare dal mondo accademico a quello professionale.
