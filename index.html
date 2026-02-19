@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QWIKKEN — The Sovereign Cognitive Tutor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #070b14;
+      --surface:   #0d1220;
+      --border:    rgba(255,255,255,0.07);
+      --cyan:      #00d4ff;
+      --emerald:   #10b981;
+      --amber:     #f59e0b;
+      --violet:    #8b5cf6;
+      --rose:      #f43f5e;
+      --blue:      #3b82f6;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding: 72px 48px 56px;
+      text-align: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 50% -10%, rgba(0,212,255,.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 110%, rgba(139,92,246,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,212,255,.1);
+      border: 1px solid rgba(0,212,255,.3);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span { color: var(--cyan); }
+
+    .hero-sub {
+      font-family: var(--font-head);
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 400;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-tagline {
+      font-size: 14px;
+      color: rgba(100,116,139,.7);
+      letter-spacing: .05em;
+      margin-bottom: 48px;
+    }
+
+    .hero-kpis {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .kpi {
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 32px;
+      min-width: 160px;
+    }
+
+    .kpi-val {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--cyan);
+      line-height: 1;
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+      letter-spacing: .04em;
+    }
+
+    /* ── GRID ── */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 20px;
+      padding: 40px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1024px) { .dashboard { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .dashboard { grid-template-columns: 1fr; padding: 20px; } }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.14);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .card.cyan::before   { background: linear-gradient(90deg, var(--cyan), #0099cc); }
+    .card.emerald::before { background: linear-gradient(90deg, var(--emerald), #059669); }
+    .card.amber::before  { background: linear-gradient(90deg, var(--amber), #d97706); }
+    .card.violet::before { background: linear-gradient(90deg, var(--violet), #7c3aed); }
+    .card.rose::before   { background: linear-gradient(90deg, var(--rose), #e11d48); }
+    .card.blue::before   { background: linear-gradient(90deg, var(--blue), #2563eb); }
+
+    .card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .cyan .card-icon   { background: rgba(0,212,255,.12);   color: var(--cyan); }
+    .emerald .card-icon { background: rgba(16,185,129,.12); color: var(--emerald); }
+    .amber .card-icon  { background: rgba(245,158,11,.12);  color: var(--amber); }
+    .violet .card-icon { background: rgba(139,92,246,.12);  color: var(--violet); }
+    .rose .card-icon   { background: rgba(244,63,94,.12);   color: var(--rose); }
+    .blue .card-icon   { background: rgba(59,130,246,.12);  color: var(--blue); }
+
+    .card h3 {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* ── BARRIER ITEMS ── */
+    .barrier-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .barrier-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: rgba(244,63,94,.05);
+      border: 1px solid rgba(244,63,94,.15);
+      border-radius: 12px;
+    }
+
+    .barrier-icon {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border-radius: 8px;
+      background: rgba(244,63,94,.12);
+      color: var(--rose);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+    }
+
+    .barrier-title { font-size: 13px; font-weight: 600; color: #fff; }
+    .barrier-stat  { font-size: 12px; color: var(--rose); margin-top: 2px; }
+
+    /* ── PIPELINE ── */
+    .pipeline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .pip-step {
+      background: rgba(0,212,255,.08);
+      border: 1px solid rgba(0,212,255,.2);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--cyan);
+    }
+
+    .pip-arrow { color: var(--muted); font-size: 12px; }
+
+    .feature-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,212,255,.07);
+      border: 1px solid rgba(0,212,255,.15);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--cyan);
+      margin: 3px 2px;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; gap: 10px; }
+
+    .tl-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .tl-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--violet);
+      flex-shrink: 0;
+    }
+
+    .tl-year {
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--violet);
+      width: 56px;
+      flex-shrink: 0;
+    }
+
+    .tl-text { font-size: 12px; color: var(--muted); }
+
+    .forever-tag {
+      display: inline-block;
+      margin-top: 18px;
+      background: linear-gradient(135deg, rgba(139,92,246,.2), rgba(0,212,255,.1));
+      border: 1px solid rgba(139,92,246,.4);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--violet);
+      letter-spacing: .06em;
+    }
+
+    /* ── ENGINES ── */
+    .engine-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .engine-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 14px;
+      background: rgba(16,185,129,.04);
+      border: 1px solid rgba(16,185,129,.12);
+      border-radius: 12px;
+    }
+
+    .engine-badge {
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--emerald);
+      background: rgba(16,185,129,.12);
+      border-radius: 6px;
+      padding: 4px 8px;
+      letter-spacing: .04em;
+      white-space: nowrap;
+      min-width: 90px;
+      text-align: center;
+    }
+
+    .engine-desc { font-size: 12px; color: var(--muted); }
+
+    /* ── MOATS ── */
+    .moat-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .moat-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(245,158,11,.04);
+      border: 1px solid rgba(245,158,11,.12);
+      border-radius: 12px;
+    }
+
+    .moat-num {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--amber);
+      flex-shrink: 0;
+      width: 24px;
+    }
+
+    .moat-title { font-size: 12px; font-weight: 600; color: #fff; }
+    .moat-sub   { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ── METRICS ── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .metric-box {
+      background: rgba(59,130,246,.05);
+      border: 1px solid rgba(59,130,246,.15);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .metric-val {
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--blue);
+      line-height: 1;
+    }
+
+    .metric-label { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+    .metric-box.full { grid-column: 1 / -1; }
+    .metric-box.full .metric-val { font-size: 1.3rem; color: var(--emerald); }
+
+    /* ── COMPETITIVE TABLE ── */
+    .comp-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+    .comp-table th {
+      text-align: left;
+      padding: 8px 10px;
+      color: var(--muted);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comp-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.03);
+    }
+
+    .comp-table tr:last-child td { border-bottom: none; }
+
+    .comp-table td:first-child { color: #fff; font-weight: 500; }
+
+    .check  { color: var(--emerald); font-size: 14px; }
+    .cross  { color: var(--rose);    font-size: 14px; }
+    .partial { color: var(--amber);  font-size: 12px; }
+
+    .qwikken-row td { background: rgba(0,212,255,.04); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 32px 40px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+
+    footer span { color: var(--cyan); }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<header class="hero">
+  <div class="hero-badge">
+    <i class="fa-solid fa-bolt"></i>
+    Synthetic Data S.r.l. &nbsp;·&nbsp; Rev 1.0 &nbsp;·&nbsp; 2026
+  </div>
+
+  <h1>QWIKKEN<br/><span>The Sovereign Cognitive Tutor</span></h1>
+  <p class="hero-sub">Architettura Neuro-Simbolica per l'Education AI</p>
+  <p class="hero-tagline">"Engineering Trust in the Age of Agentic AI"</p>
+
+  <div class="hero-kpis">
+    <div class="kpi">
+      <div class="kpi-val">€1.99</div>
+      <div class="kpi-label">costo/studente/anno<br/>ottimizzato</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">45+</div>
+      <div class="kpi-label">anni di relazione<br/>col Cognitive Twin</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">0</div>
+      <div class="kpi-label">allucinazioni<br/>sui contenuti corso</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">5x</div>
+      <div class="kpi-label">LTV con modello<br/>lifelong vs education only</div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════ DASHBOARD ════════════════════════ -->
+<main class="dashboard">
+
+  <!-- Q1 — IL PROBLEMA -->
+  <div class="card rose">
+    <div class="card-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <h3>Il Problema</h3>
+    <p class="card-desc">Le tre barriere che bloccano l'adozione dell'AI in Education</p>
+
+    <div class="barrier-list">
+      <div class="barrier-item">
+        <div class="barrier-icon"><i class="fa-solid fa-brain"></i></div>
+        <div>
+          <div class="barrier-title">Allucinazioni</div>
+          <div class="barrier-stat">15-20% errori fattuali nei LLM generici — inaccettabile in Education</div>
+        </div>
+      </div>
+      <div class="barrier-item">
+        <div class="barrier-icon"><i class="fa-solid fa-book"></i></div>
+        <div>
+          <div class="barrier-title">Nessuna Struttura Curricolare</div>
+          <div class="barrier-stat">ChatGPT ignora prerequisiti, propedeuticità e obiettivi del corso</div>
+        </div>
+      </div>
+      <div class="barrier-item">
+        <div class="barrier-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div>
+          <div class="barrier-title">Nessuna Verifica / Certificazione</div>
+          <div class="barrier-stat">Audit trail impossibile — le università non possono adottare ChatGPT</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 — EGEMON / LA SOLUZIONE -->
+  <div class="card cyan">
+    <div class="card-icon"><i class="fa-solid fa-microchip"></i></div>
+    <h3>EGEMON — La Soluzione</h3>
+    <p class="card-desc">Educational GEnerative MONitor · Architettura Neuro-Simbolica Proprietaria</p>
+
+    <div class="pipeline">
+      <div class="pip-step">Parser</div>
+      <span class="pip-arrow">→</span>
+      <div class="pip-step">Router</div>
+      <span class="pip-arrow">→</span>
+      <div class="pip-step">Retriever</div>
+      <span class="pip-arrow">→</span>
+      <div class="pip-step">Generator</div>
+      <span class="pip-arrow">→</span>
+      <div class="pip-step">Validator</div>
+    </div>
+
+    <div>
+      <span class="feature-tag"><i class="fa-solid fa-check"></i> Determinismo garantito</span>
+      <span class="feature-tag"><i class="fa-solid fa-check"></i> Citazioni verificabili</span>
+      <span class="feature-tag"><i class="fa-solid fa-check"></i> Audit trail nativo</span>
+      <span class="feature-tag"><i class="fa-solid fa-check"></i> GDPR-native EU</span>
+      <span class="feature-tag"><i class="fa-solid fa-check"></i> AI Act compliant</span>
+      <span class="feature-tag"><i class="fa-solid fa-check"></i> MMS Kernel proprietario</span>
+    </div>
+  </div>
+
+  <!-- Q3 — COGNITIVE TWIN -->
+  <div class="card violet">
+    <div class="card-icon"><i class="fa-solid fa-dna"></i></div>
+    <h3>Cognitive Twin</h3>
+    <p class="card-desc">Il gemello cognitivo persistente che cresce con lo studente per tutta la vita</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">Anno 1</div>
+        <div class="tl-text">Conosce il tuo stile di apprendimento</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">Anno 3</div>
+        <div class="tl-text">Sa dove hai faticato e dove eccelli</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">Anno 5</div>
+        <div class="tl-text">Può predire cosa ti servirà imparare</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">Anno 10</div>
+        <div class="tl-text">Archivio completo della tua evoluzione intellettuale</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">Anno 20+</div>
+        <div class="tl-text">Memoria esterna del percorso cognitivo — lifelong</div>
+      </div>
+    </div>
+
+    <div class="forever-tag">
+      <i class="fa-solid fa-infinity"></i>&nbsp;&nbsp;QWIKKEN IS FOREVER
+    </div>
+  </div>
+
+  <!-- Q4 — I 5 ENGINE -->
+  <div class="card emerald">
+    <div class="card-icon"><i class="fa-solid fa-cubes"></i></div>
+    <h3>I 5 Engine EGEMON</h3>
+    <p class="card-desc">Moduli specializzati che lavorano in sinergia nel core del sistema</p>
+
+    <div class="engine-grid">
+      <div class="engine-item">
+        <div class="engine-badge">SENSORIUM</div>
+        <div class="engine-desc">Document ingestion, parsing e indicizzazione materiali didattici</div>
+      </div>
+      <div class="engine-item">
+        <div class="engine-badge">SYNAPSE</div>
+        <div class="engine-desc">Knowledge Graph curricolare — prerequisiti, propedeuticità, relazioni</div>
+      </div>
+      <div class="engine-item">
+        <div class="engine-badge">SOCRATES</div>
+        <div class="engine-desc">Tutoring conversazionale con metodo maieutico — guida alla scoperta</div>
+      </div>
+      <div class="engine-item">
+        <div class="engine-badge">ARENA</div>
+        <div class="engine-desc">Assessment adattivo, simulazioni esame, feedback dettagliato</div>
+      </div>
+      <div class="engine-item">
+        <div class="engine-badge">SENTINEL</div>
+        <div class="engine-desc">Governance, audit trail completo, explainability, compliance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 — MOAT COMPETITIVI -->
+  <div class="card amber">
+    <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+    <h3>5 Moat Difendibili</h3>
+    <p class="card-desc">Vantaggi competitivi strutturali non replicabili da LLM generici</p>
+
+    <div class="moat-list">
+      <div class="moat-item">
+        <div class="moat-num">01</div>
+        <div>
+          <div class="moat-title">Technology Moat</div>
+          <div class="moat-sub">MMS + Genoma proprietari — non replicabili con prompt engineering</div>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-num">02</div>
+        <div>
+          <div class="moat-title">Data Moat</div>
+          <div class="moat-sub">Cognitive Twin con anni di storia cognitiva — irriproducibile</div>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-num">03</div>
+        <div>
+          <div class="moat-title">Network Effect</div>
+          <div class="moat-sub">Più studenti → sistema migliore → più studenti</div>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-num">04</div>
+        <div>
+          <div class="moat-title">Integration Moat</div>
+          <div class="moat-sub">LMS nativo (Moodle, Canvas, Blackboard) — switching cost istituzionale</div>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-num">05</div>
+        <div>
+          <div class="moat-title">Trust Moat</div>
+          <div class="moat-sub">GDPR-native, AI Act EU, Genesis Certificate, track record</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 — I NUMERI -->
+  <div class="card blue">
+    <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+    <h3>I Numeri</h3>
+    <p class="card-desc">Metriche chiave del piano finanziario e del modello di business</p>
+
+    <div class="metrics-grid">
+      <div class="metric-box">
+        <div class="metric-val">€1.99</div>
+        <div class="metric-label">costo inferenza<br/>studente/anno</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-val">€300k</div>
+        <div class="metric-label">investimento<br/>iniziale</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-val">Y1</div>
+        <div class="metric-label">break-even<br/>previsto</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-val">85%</div>
+        <div class="metric-label">risparmio con<br/>model cascading</div>
+      </div>
+      <div class="metric-box full">
+        <div class="metric-val">€800–1.200 LTV &nbsp;·&nbsp; +5x vs Education Only</div>
+        <div class="metric-label">Lifelong Model &nbsp;|&nbsp; Target 2030: espansione mercato EU</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ════════════════════════ FOOTER ════════════════════════ -->
+<footer>
+  <span>QWIKKEN</span> &nbsp;·&nbsp; The Sovereign Cognitive Tutor &nbsp;·&nbsp;
+  Synthetic Data S.r.l. &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; Rev 1.0 · 2026
+</footer>
+
+</body>
+</html>
