@@ -1,0 +1,16 @@
+Ecco il quadro completo. Multiversity comprende tre atenei: Pegaso, Mercatorum e San Raffaele Roma, ed è controllato dal fondo britannico CVC Capital Partners.
+
+Le **8 università telematiche indipendenti da Multiversity** sono:
+
+| # | Ateneo | Sede | Studenti (stima) | Note |
+|---|---|---|---|---|
+| 1 | **eCampus** | Novedrate (CO) | ~80.000 | La più grande dopo Multiversity, catalogo molto ampio |
+| 2 | **Niccolò Cusano** | Roma | ~30.000 | Campus fisico + online, modalità blended |
+| 3 | **Uninettuno** | Roma | ~18.000 | Massimo giudizio ANVUR, vocazione internazionale |
+| 4 | **Guglielmo Marconi** | Roma | ~12.000 | Prima telematica italiana (2004), profilo internazionale |
+| 5 | **IUL** | Firenze | ~12.000 | Focus educazione e formazione docenti |
+| 6 | **Giustino Fortunato** | Benevento | ~10.000 | Realtà regionale, 7 corsi di laurea |
+| 7 | **Unitelma Sapienza** | Roma | ~6.000 | Collegata a La Sapienza (pubblica), profilo premium |
+| 8 | **Leonardo da Vinci (UniDav)** | Chieti | ~4.000 | Piccola, offerta mirata e specializzata |
+
+Per la strategia QWIKKEN questo è rilevante: i primi target del tuo BP (Mercatorum, San Raffaele) sono **dentro Multiversity**, il che significa negoziare con un unico interlocutore corporate (CVC/Vaccarono). Le 8 indipendenti invece sono decisioni singole — potenzialmente più agili per un pilot. In particolare **Uninettuno** ed **eCampus** sono le più interessanti come target alternativi per Anno 1, perché sono grandi abbastanza e autonome nelle decisioni.
