@@ -11,22 +11,24 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #0f172a;
-      --surface:  #0f172a;
-      --card:     #1e293b;
-      --card-hov: #253347;
-      --border:   rgba(255,255,255,0.08);
-      --border2:  rgba(255,255,255,0.15);
-      --cyan:     #00d4ff;
-      --rose:     #f43f5e;
-      --blue:     #3b82f6;
-      --emerald:  #10b981;
-      --violet:   #8b5cf6;
-      --amber:    #f59e0b;
-      --indigo:   #6366f1;
-      --text:     #ffffff;
-      --muted:    #cbd5e1;
-      --sidebar-w: 260px;
+      --bg:          #0f172a;
+      --surface:     #0f172a;
+      --card:        #1e293b;
+      --card-hov:    #253347;
+      --border:      rgba(255,255,255,0.08);
+      --border2:     rgba(255,255,255,0.15);
+      --sky:         #06b6d4;
+      --cyan:        #00d4ff;
+      --rose:        #f43f5e;
+      --blue:        #3b82f6;
+      --emerald:     #10b981;
+      --violet:      #8b5cf6;
+      --amber:       #f59e0b;
+      --indigo:      #6366f1;
+      --text:        #ffffff;
+      --muted:       #cbd5e1;
+      --sidebar-w:   240px;
+      --ai-panel-w:  360px;
     }
 
     html, body { height: 100%; overflow: hidden; }
@@ -36,7 +38,14 @@
       color: var(--text);
       font-family: 'Inter', sans-serif;
       display: flex;
+      height: 100vh;
     }
+
+    /* ── SCROLLBARS ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
     /* ── SIDEBAR ── */
     .sidebar {
@@ -50,281 +59,251 @@
       overflow-y: auto;
     }
 
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #1e293b; }
-    ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
-
-    .sidebar::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-track { background: transparent; }
-    .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 4px; }
-
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 20px 16px 18px;
+      gap: 10px;
+      padding: 18px 14px 16px;
       border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
     }
 
     .logo-icon {
-      width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--cyan), #0099cc);
-      border-radius: 10px;
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--sky), #0077aa);
+      border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      color: #000;
-      flex-shrink: 0;
+      font-weight: 700; font-size: 15px;
+      color: #fff; flex-shrink: 0;
     }
 
     .logo-name {
       font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      color: #fff;
-      letter-spacing: .04em;
+      font-weight: 700; font-size: 13px;
+      color: #fff; letter-spacing: .04em;
     }
 
     .logo-sub {
-      font-size: 10px;
-      color: var(--cyan);
-      font-weight: 600;
-      letter-spacing: .08em;
+      font-size: 9px; color: var(--sky);
+      font-weight: 600; letter-spacing: .08em;
       text-transform: uppercase;
     }
 
-    .nav { padding: 12px 0; flex: 1; }
+    .nav { padding: 8px 0; flex: 1; }
 
     .nav-section {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .10em;
-      text-transform: uppercase;
-      padding: 16px 16px 6px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .10em; text-transform: uppercase;
+      padding: 14px 14px 5px;
     }
 
     .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 16px;
-      font-size: 13px;
-      color: #64748b;
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 14px;
+      font-size: 12px; color: #64748b;
       cursor: pointer;
       border-left: 3px solid transparent;
-      transition: all .2s;
+      transition: all .15s;
       border-radius: 0 6px 6px 0;
-      margin-right: 8px;
+      margin-right: 6px;
     }
 
     .nav-item:hover { color: #e2e8f0; background: rgba(255,255,255,.04); }
 
     .nav-item.active {
       color: #fff;
-      border-left-color: var(--cyan);
-      background: rgba(0,212,255,.06);
+      border-left-color: var(--sky);
+      background: rgba(6,182,212,.07);
     }
 
     .nav-num {
-      font-size: 10px;
-      font-weight: 600;
-      color: inherit;
-      opacity: .6;
-      width: 18px;
-      flex-shrink: 0;
+      font-size: 10px; font-weight: 600;
+      color: inherit; opacity: .5;
+      width: 16px; flex-shrink: 0;
     }
 
     .sidebar-footer {
-      padding: 16px;
-      border-top: 1px solid var(--border);
-      font-size: 11px;
-      color: #475569;
+      padding: 14px; border-top: 1px solid var(--border);
+      font-size: 10px; color: #475569; flex-shrink: 0;
     }
 
-    .sidebar-footer span { color: var(--cyan); }
+    .sidebar-footer span { color: var(--sky); }
 
-    /* ── MAIN ── */
+    /* ── MAIN (center column) ── */
     .main {
       flex: 1;
+      min-width: 0;
       height: 100vh;
-      overflow-y: auto;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
-    .main::-webkit-scrollbar { width: 6px; }
-    .main::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 4px; }
-
     /* ── TOPBAR ── */
     .topbar {
-      padding: 24px 40px 20px;
+      padding: 16px 28px 14px;
       border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
       background: var(--bg);
-      z-index: 10;
+      flex-shrink: 0;
+    }
+
+    .topbar-row {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 12px;
     }
 
     .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
+      display: flex; align-items: center;
+      gap: 8px; margin-bottom: 8px;
     }
 
     .breadcrumb-tag {
-      background: rgba(0,212,255,.12);
-      border: 1px solid rgba(0,212,255,.25);
-      color: var(--cyan);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 6px;
+      background: rgba(6,182,212,.12);
+      border: 1px solid rgba(6,182,212,.25);
+      color: var(--sky);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 5px;
     }
 
-    .breadcrumb-sep { color: var(--muted); font-size: 12px; }
-    .breadcrumb-text { font-size: 13px; color: #94a3b8; }
+    .breadcrumb-sep { color: #475569; font-size: 11px; }
+    .breadcrumb-text { font-size: 12px; color: #64748b; }
 
     .topbar h1 {
       font-family: 'Cinzel', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: .02em;
-      line-height: 1.1;
+      font-size: 1.6rem; font-weight: 700;
+      color: #fff; letter-spacing: .02em; line-height: 1.1;
     }
 
     .topbar-sub {
-      font-size: 14px;
-      color: #94a3b8;
-      margin-top: 4px;
+      font-size: 12px; color: #64748b; margin-top: 2px;
+    }
+
+    .ai-toggle-btn {
+      display: flex; align-items: center; gap: 7px;
+      background: linear-gradient(135deg, rgba(6,182,212,.12), rgba(59,130,246,.12));
+      border: 1px solid rgba(6,182,212,.28);
+      border-radius: 9px;
+      color: var(--sky);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px; font-weight: 600;
+      padding: 8px 14px;
+      cursor: pointer; transition: all .15s;
+      letter-spacing: .02em; flex-shrink: 0; white-space: nowrap;
+    }
+
+    .ai-toggle-btn:hover {
+      background: linear-gradient(135deg, rgba(6,182,212,.2), rgba(59,130,246,.2));
+      border-color: rgba(6,182,212,.5);
+    }
+
+    .ai-toggle-btn.active {
+      background: rgba(6,182,212,.16);
+      border-color: var(--sky);
     }
 
     /* ── CONTENT ── */
-    .content { padding: 28px 40px 48px; }
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 22px 28px 48px;
+    }
 
     /* ── SECTION HEADER ── */
     .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      margin-top: 32px;
+      display: flex; align-items: center;
+      gap: 10px; margin-bottom: 14px; margin-top: 28px;
     }
 
     .section-header:first-child { margin-top: 0; }
 
-    .section-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .section-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
     .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .10em;
-      text-transform: uppercase;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .10em; text-transform: uppercase;
     }
 
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
 
     /* ── CARD GRID ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 8px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin-bottom: 6px;
     }
 
-    @media (max-width: 1200px) { .card-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 900px)  { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1100px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
 
     /* ── CARD ── */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 24px;
+      padding: 20px;
       position: relative;
       cursor: pointer;
-      transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+      transition: background .18s, border-color .18s, transform .18s, box-shadow .18s;
+      box-shadow: 0 8px 12px -3px rgba(0,0,0,0.3);
       overflow: hidden;
     }
 
     .card:hover {
       background: var(--card-hov);
       border-color: var(--border2);
-      transform: translateY(-3px);
-      box-shadow: 0 16px 24px -4px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 20px -4px rgba(0,0,0,0.4);
     }
 
-    /* Blob decorativo angolo in alto a destra */
     .card::after {
       content: '';
       position: absolute;
       top: -8px; right: -8px;
-      width: 72px; height: 72px;
+      width: 64px; height: 64px;
       border-radius: 50%;
       opacity: 0.07;
       transition: transform .3s;
       pointer-events: none;
     }
-    .card:hover::after { transform: scale(1.5); }
 
-    /* Colore blob per sezione */
-    .card:has(.num-cyan)::after    { background: var(--cyan); }
-    .card:has(.num-rose)::after    { background: var(--rose); }
-    .card:has(.num-blue)::after    { background: var(--blue); }
-    .card:has(.num-emerald)::after { background: var(--emerald); }
-    .card:has(.num-violet)::after  { background: var(--violet); }
-    .card:has(.num-amber)::after   { background: var(--amber); }
-    .card:has(.num-indigo)::after  { background: var(--indigo); }
+    .card:hover::after { transform: scale(1.6); }
+
+    .card:has(.num-sky)::after    { background: var(--sky); }
+    .card:has(.num-cyan)::after   { background: var(--cyan); }
+    .card:has(.num-rose)::after   { background: var(--rose); }
+    .card:has(.num-blue)::after   { background: var(--blue); }
+    .card:has(.num-emerald)::after{ background: var(--emerald); }
+    .card:has(.num-violet)::after { background: var(--violet); }
+    .card:has(.num-amber)::after  { background: var(--amber); }
+    .card:has(.num-indigo)::after { background: var(--indigo); }
 
     .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 14px;
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 12px;
     }
 
     .card-num {
-      width: 36px; height: 36px;
-      border-radius: 10px;
+      width: 34px; height: 34px;
+      border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      font-size: 13px; font-weight: 700;
+      color: #fff; flex-shrink: 0;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     }
 
     .card-tag {
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 5px;
-      border: 1px solid;
+      font-size: 8px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 3px 7px; border-radius: 4px; border: 1px solid;
     }
 
-    .tag-barriera { background: rgba(244,63,94,.12);  border-color: rgba(244,63,94,.3);  color: var(--rose); }
+    .tag-strategy { background: rgba(6,182,212,.10);  border-color: rgba(6,182,212,.3);  color: var(--sky); }
     .tag-core     { background: rgba(0,212,255,.10);   border-color: rgba(0,212,255,.3);  color: var(--cyan); }
     .tag-engine   { background: rgba(16,185,129,.10);  border-color: rgba(16,185,129,.3); color: var(--emerald); }
     .tag-key      { background: rgba(245,158,11,.10);  border-color: rgba(245,158,11,.3); color: var(--amber); }
     .tag-moat     { background: rgba(139,92,246,.10);  border-color: rgba(139,92,246,.3); color: var(--violet); }
-    .tag-diff     { background: rgba(244,63,94,.10);   border-color: rgba(244,63,94,.3);  color: var(--rose); }
     .tag-market   { background: rgba(59,130,246,.10);  border-color: rgba(59,130,246,.3); color: var(--blue); }
     .tag-ip       { background: rgba(245,158,11,.10);  border-color: rgba(245,158,11,.3); color: var(--amber); }
     .tag-arch     { background: rgba(139,92,246,.10);  border-color: rgba(139,92,246,.3); color: var(--violet); }
@@ -333,24 +312,20 @@
     .tag-scale    { background: rgba(244,63,94,.10);   border-color: rgba(244,63,94,.3);  color: var(--rose); }
     .tag-finops   { background: rgba(16,185,129,.10);  border-color: rgba(16,185,129,.3); color: var(--emerald); }
     .tag-forever  { background: rgba(59,130,246,.10);  border-color: rgba(59,130,246,.3); color: var(--blue); }
+    .tag-diff     { background: rgba(244,63,94,.10);   border-color: rgba(244,63,94,.3);  color: var(--rose); }
 
     .card h3 {
       font-family: 'Cinzel', serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1.3;
-      margin-bottom: 12px;
-      letter-spacing: .02em;
+      font-size: 16px; font-weight: 700;
+      color: #fff; line-height: 1.3;
+      margin-bottom: 10px; letter-spacing: .02em;
     }
 
     .card p {
-      font-size: 14px;
-      color: #94a3b8;
-      line-height: 1.65;
+      font-size: 13px; color: #94a3b8; line-height: 1.6;
     }
 
-    /* badge colors per section */
+    .num-sky     { background: rgba(6,182,212,.18);   color: var(--sky); }
     .num-cyan    { background: rgba(0,212,255,.18);   color: var(--cyan); }
     .num-rose    { background: rgba(244,63,94,.18);   color: var(--rose); }
     .num-blue    { background: rgba(59,130,246,.18);  color: var(--blue); }
@@ -359,211 +334,125 @@
     .num-amber   { background: rgba(245,158,11,.18);  color: var(--amber); }
     .num-indigo  { background: rgba(99,102,241,.18);  color: var(--indigo); }
 
-    /* ── TOPBAR ROW ── */
-    .topbar-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .ai-toggle-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, rgba(0,212,255,.12), rgba(59,130,246,.12));
-      border: 1px solid rgba(0,212,255,.30);
-      border-radius: 10px;
-      color: var(--cyan);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 10px 18px;
-      cursor: pointer;
-      transition: all .18s;
-      letter-spacing: .02em;
-      flex-shrink: 0;
-      white-space: nowrap;
-    }
-
-    .ai-toggle-btn:hover {
-      background: linear-gradient(135deg, rgba(0,212,255,.22), rgba(59,130,246,.22));
-      border-color: rgba(0,212,255,.55);
-      transform: translateY(-1px);
-    }
-
-    .ai-toggle-btn.active {
-      background: rgba(0,212,255,.18);
-      border-color: var(--cyan);
-    }
-
-    /* ── AI PANEL ── */
+    /* ── AI PANEL — permanent right sidebar ── */
     .ai-panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 420px;
-      height: 100vh;
-      background: #0c1120;
-      border-left: 1px solid rgba(0,212,255,.18);
+      width: var(--ai-panel-w);
+      flex-shrink: 0;
+      background: #0b1120;
+      border-left: 1px solid rgba(6,182,212,.18);
       display: flex;
       flex-direction: column;
-      z-index: 500;
-      transform: translateX(100%);
-      transition: transform .28s cubic-bezier(.4,0,.2,1);
-      box-shadow: -12px 0 48px rgba(0,0,0,.5);
+      height: 100vh;
+      overflow: hidden;
+      transition: width .28s cubic-bezier(.4,0,.2,1);
     }
 
-    .ai-panel.open { transform: translateX(0); }
+    .ai-panel.collapsed { width: 0; }
 
     .ai-panel-header {
-      padding: 20px 20px 16px;
+      padding: 16px 14px 12px;
       border-bottom: 1px solid rgba(255,255,255,.07);
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: flex; align-items: center; gap: 10px;
       flex-shrink: 0;
     }
 
     .ai-panel-icon {
-      width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--cyan), #0077aa);
-      border-radius: 10px;
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, var(--sky), #0077aa);
+      border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 15px;
-      color: #000;
-      flex-shrink: 0;
+      font-size: 13px; color: #fff; flex-shrink: 0;
     }
 
     .ai-panel-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
+      font-size: 13px; font-weight: 700; color: #fff;
     }
 
-    .ai-panel-sub {
-      font-size: 11px;
-      color: #475569;
-    }
+    .ai-panel-sub { font-size: 10px; color: #475569; }
 
     .ai-panel-close {
+      margin-left: auto;
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.09);
-      border-radius: 8px;
-      color: #64748b;
-      width: 32px; height: 32px;
+      border-radius: 6px; color: #64748b;
+      width: 26px; height: 26px;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: all .15s;
-      font-size: 14px;
+      cursor: pointer; transition: all .15s; font-size: 11px;
+      flex-shrink: 0;
     }
 
     .ai-panel-close:hover { background: rgba(255,255,255,.12); color: #fff; }
 
     .ai-model-bar {
-      padding: 10px 16px;
+      padding: 8px 12px;
       border-bottom: 1px solid rgba(255,255,255,.05);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
+      display: flex; align-items: center; gap: 7px; flex-shrink: 0;
     }
 
-    .ai-model-label { font-size: 11px; color: #475569; flex-shrink: 0; }
+    .ai-model-label { font-size: 10px; color: #475569; flex-shrink: 0; }
 
     .ai-model-select {
       background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.09);
-      border-radius: 7px;
-      color: #cbd5e1;
-      font-size: 12px;
-      font-family: 'Inter', sans-serif;
-      padding: 5px 10px;
-      cursor: pointer;
-      outline: none;
-      flex: 1;
+      border-radius: 6px; color: #cbd5e1;
+      font-size: 11px; font-family: 'Inter', sans-serif;
+      padding: 4px 8px; cursor: pointer; outline: none; flex: 1;
     }
 
-    .ai-model-select:focus { border-color: rgba(0,212,255,.4); }
+    .ai-model-select:focus { border-color: rgba(6,182,212,.4); }
 
     .ai-key-btn {
       background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.09);
-      border-radius: 7px;
-      color: #64748b;
-      font-size: 11px;
-      padding: 5px 10px;
-      cursor: pointer;
-      transition: all .15s;
+      border-radius: 6px; color: #64748b;
+      font-size: 11px; padding: 4px 8px;
+      cursor: pointer; transition: all .15s;
     }
 
     .ai-key-btn:hover { color: #94a3b8; border-color: rgba(255,255,255,.2); }
 
     .ai-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      flex: 1; overflow-y: auto;
+      padding: 14px;
+      display: flex; flex-direction: column; gap: 12px;
     }
-
-    .ai-messages::-webkit-scrollbar { width: 4px; }
-    .ai-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,.07); border-radius: 4px; }
 
     .ai-empty {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      color: #334155;
-      text-align: center;
-      padding: 32px 20px;
-      pointer-events: none;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; color: #334155; text-align: center;
+      padding: 20px 14px; pointer-events: none;
     }
 
-    .ai-empty-icon { font-size: 36px; opacity: .35; }
-    .ai-empty-text { font-size: 13px; line-height: 1.65; }
+    .ai-empty-icon { font-size: 28px; opacity: .3; }
+    .ai-empty-text { font-size: 11px; line-height: 1.6; }
 
-    .ai-msg {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
+    .ai-msg { display: flex; gap: 8px; align-items: flex-start; }
     .ai-msg.user { flex-direction: row-reverse; }
 
     .ai-msg-avatar {
-      width: 28px; height: 28px;
-      border-radius: 8px;
+      width: 24px; height: 24px;
+      border-radius: 7px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 12px;
-      flex-shrink: 0;
-      margin-top: 2px;
+      font-size: 11px; flex-shrink: 0; margin-top: 2px;
     }
 
-    .ai-msg.user .ai-msg-avatar {
-      background: rgba(59,130,246,.2);
-      color: var(--blue);
-    }
-
+    .ai-msg.user .ai-msg-avatar { background: rgba(59,130,246,.2); color: var(--blue); }
     .ai-msg.assistant .ai-msg-avatar {
-      background: linear-gradient(135deg, rgba(0,212,255,.22), rgba(0,119,170,.22));
-      color: var(--cyan);
+      background: linear-gradient(135deg, rgba(6,182,212,.22), rgba(0,119,170,.22));
+      color: var(--sky);
     }
 
     .ai-msg-bubble {
       background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.08);
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 13px;
-      line-height: 1.65;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 12px; line-height: 1.65;
       color: #cbd5e1;
-      max-width: calc(100% - 44px);
+      max-width: calc(100% - 36px);
       word-break: break-word;
     }
 
@@ -576,7 +465,7 @@
     .ai-msg.assistant .ai-msg-bubble strong { color: #fff; }
 
     .ai-input-area {
-      padding: 14px 16px;
+      padding: 12px 12px 14px;
       border-top: 1px solid rgba(255,255,255,.07);
       flex-shrink: 0;
     }
@@ -584,54 +473,41 @@
     .ai-textarea-wrap {
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.09);
-      border-radius: 12px;
-      padding: 12px 14px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      border-radius: 10px;
+      padding: 10px 12px 8px;
+      display: flex; flex-direction: column; gap: 8px;
       transition: border-color .15s;
     }
 
-    .ai-textarea-wrap:focus-within { border-color: rgba(0,212,255,.32); }
+    .ai-textarea-wrap:focus-within { border-color: rgba(6,182,212,.35); }
 
     .ai-textarea {
-      background: transparent;
-      border: none;
+      background: transparent; border: none;
       color: #e2e8f0;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      line-height: 1.5;
-      resize: none;
-      outline: none;
-      min-height: 60px;
-      max-height: 150px;
-      width: 100%;
+      font-size: 12px; line-height: 1.5;
+      resize: none; outline: none;
+      min-height: 52px; max-height: 120px; width: 100%;
     }
 
     .ai-textarea::placeholder { color: #3d4f6b; }
 
     .ai-textarea-actions {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
     }
 
-    .ai-hint-text { font-size: 11px; color: #2d3748; }
+    .ai-hint-text { font-size: 10px; color: #2d3748; }
 
     .ai-send-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg, var(--cyan), #0099cc);
-      border: none;
-      border-radius: 8px;
-      color: #000;
+      display: flex; align-items: center; gap: 5px;
+      background: linear-gradient(135deg, var(--sky), #0077aa);
+      border: none; border-radius: 7px;
+      color: #fff;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 8px 14px;
-      cursor: pointer;
-      transition: opacity .15s, transform .15s;
+      font-size: 11px; font-weight: 700;
+      padding: 7px 13px;
+      cursor: pointer; transition: opacity .15s, transform .15s;
       letter-spacing: .02em;
     }
 
@@ -639,16 +515,13 @@
     .ai-send-btn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
 
     .ai-typing-bubble {
-      display: flex;
-      gap: 5px;
-      align-items: center;
-      padding: 12px 14px;
+      display: flex; gap: 4px; align-items: center;
+      padding: 10px 12px;
     }
 
     .ai-typing-bubble span {
-      width: 6px; height: 6px;
-      background: var(--cyan);
-      border-radius: 50%;
+      width: 5px; height: 5px;
+      background: var(--sky); border-radius: 50%;
       animation: aiTyping 1s infinite;
     }
 
@@ -660,36 +533,25 @@
       40% { opacity: 1; transform: scale(1.35); }
     }
 
-    /* ── MODAL OVERLAY ── */
+    /* ── MODAL ── */
     .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 7, 18, 0.92);
+      display: none; position: fixed; inset: 0;
+      background: rgba(4,7,18,0.92);
       backdrop-filter: blur(12px);
       z-index: 1000;
-      align-items: center;
-      justify-content: center;
+      align-items: center; justify-content: center;
       padding: 40px;
     }
 
-    .modal-overlay.open {
-      display: flex;
-      animation: fadeIn .18s ease;
-    }
+    .modal-overlay.open { display: flex; animation: fadeIn .18s ease; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .modal-box {
       background: #0f172a;
       border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
-      padding: 48px 56px;
-      max-width: 780px;
-      width: 100%;
+      border-radius: 20px; padding: 44px 52px;
+      max-width: 740px; width: 100%;
       position: relative;
       animation: slideUp .22s ease;
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
@@ -701,72 +563,48 @@
     }
 
     .modal-close {
-      position: absolute;
-      top: 24px; right: 28px;
+      position: absolute; top: 20px; right: 24px;
       background: rgba(255,255,255,.07);
       border: 1px solid rgba(255,255,255,.12);
-      border-radius: 8px;
-      color: #94a3b8;
-      font-size: 18px;
-      width: 36px; height: 36px;
+      border-radius: 7px; color: #94a3b8;
+      font-size: 16px; width: 34px; height: 34px;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: background .15s, color .15s;
+      cursor: pointer; transition: background .15s, color .15s;
     }
 
     .modal-close:hover { background: rgba(255,255,255,.12); color: #fff; }
 
-    .modal-top {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
+    .modal-top { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
 
     .modal-num {
-      width: 52px; height: 52px;
-      border-radius: 14px;
+      width: 48px; height: 48px; border-radius: 13px;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      flex-shrink: 0;
+      font-size: 18px; font-weight: 700; flex-shrink: 0;
     }
 
     .modal-tag {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .10em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 6px;
-      border: 1px solid;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .10em; text-transform: uppercase;
+      padding: 4px 11px; border-radius: 6px; border: 1px solid;
     }
 
     .modal-title {
       font-family: 'Cinzel', serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1.2;
-      margin-bottom: 24px;
-      letter-spacing: .02em;
+      font-size: 2rem; font-weight: 700;
+      color: #fff; line-height: 1.2;
+      margin-bottom: 20px; letter-spacing: .02em;
     }
 
     .modal-body {
-      font-size: 1.15rem;
-      color: #cbd5e1;
-      line-height: 1.8;
+      font-size: 1.05rem; color: #cbd5e1; line-height: 1.8;
     }
 
-    .modal-body strong { color: #ffffff; }
+    .modal-body strong { color: #fff; }
 
     .modal-hint {
-      margin-top: 40px;
-      font-size: 12px;
-      color: #475569;
-      text-align: center;
-      letter-spacing: .04em;
+      margin-top: 36px; font-size: 11px;
+      color: #475569; text-align: center; letter-spacing: .04em;
     }
   </style>
 </head>
@@ -784,42 +622,45 @@
 
   <nav class="nav">
 
+    <div class="nav-section" style="color:var(--sky)">Strategy</div>
+    <div class="nav-item active"><span class="nav-num">01</span>Il Progetto</div>
+    <div class="nav-item"><span class="nav-num">02</span>Cognitive Twin</div>
+    <div class="nav-item"><span class="nav-num">03</span>Architettura</div>
+
     <div class="nav-section" style="color:var(--cyan)">Acceleratori Cognitivi</div>
-    <div class="nav-item active"><span class="nav-num">01</span>Cognitive Twin</div>
-    <div class="nav-item"><span class="nav-num">02</span>Acceleratore Cognitivo</div>
-    <div class="nav-item"><span class="nav-num">03</span>Marketplace Conoscenza</div>
+    <div class="nav-item"><span class="nav-num">04</span>Acceleratore Cognitivo</div>
+    <div class="nav-item"><span class="nav-num">05</span>Marketplace Conoscenza</div>
 
     <div class="nav-section" style="color:var(--emerald)">Analisi dei Costi</div>
-    <div class="nav-item"><span class="nav-num">04</span>Model Cascading</div>
-    <div class="nav-item"><span class="nav-num">05</span>Unit Economics</div>
-    <div class="nav-item"><span class="nav-num">06</span>Offline Intelligence</div>
+    <div class="nav-item"><span class="nav-num">06</span>Model Cascading</div>
+    <div class="nav-item"><span class="nav-num">07</span>Unit Economics</div>
+    <div class="nav-item"><span class="nav-num">08</span>Offline Intelligence</div>
 
     <div class="nav-section" style="color:var(--blue)">Mercati e Ricavi</div>
-    <div class="nav-item"><span class="nav-num">07</span>Università Telematiche</div>
-    <div class="nav-item"><span class="nav-num">08</span>B2B SaaS Model</div>
-    <div class="nav-item"><span class="nav-num">09</span>QWIKKEN IS FOREVER</div>
+    <div class="nav-item"><span class="nav-num">09</span>Università Telematiche</div>
+    <div class="nav-item"><span class="nav-num">10</span>B2B SaaS Model</div>
+    <div class="nav-item"><span class="nav-num">11</span>QWIKKEN IS FOREVER</div>
 
     <div class="nav-section" style="color:var(--violet)">Piano Realizzazione</div>
-    <div class="nav-item"><span class="nav-num">10</span>EGEMON Architecture</div>
-    <div class="nav-item"><span class="nav-num">11</span>MMS Kernel</div>
-    <div class="nav-item"><span class="nav-num">12</span>Il Genoma</div>
-    <div class="nav-item"><span class="nav-num">13</span>SENSORIUM &amp; SYNAPSE</div>
-    <div class="nav-item"><span class="nav-num">14</span>SOCRATES · ARENA · SENTINEL</div>
+    <div class="nav-item"><span class="nav-num">12</span>EGEMON Architecture</div>
+    <div class="nav-item"><span class="nav-num">13</span>MMS Kernel</div>
+    <div class="nav-item"><span class="nav-num">14</span>Il Genoma</div>
+    <div class="nav-item"><span class="nav-num">15</span>ARENA · SENTINEL</div>
 
     <div class="nav-section" style="color:var(--amber)">Proprietà Intellettuale</div>
-    <div class="nav-item"><span class="nav-num">15</span>IP Genome</div>
-    <div class="nav-item"><span class="nav-num">16</span>Genesis Certificate</div>
-    <div class="nav-item"><span class="nav-num">17</span>Contractual Genome</div>
+    <div class="nav-item"><span class="nav-num">16</span>IP Genome</div>
+    <div class="nav-item"><span class="nav-num">17</span>Genesis Certificate</div>
+    <div class="nav-item"><span class="nav-num">18</span>Contractual Genome</div>
 
     <div class="nav-section" style="color:var(--rose)">Scalabilità</div>
-    <div class="nav-item"><span class="nav-num">18</span>Multi-Tenant</div>
-    <div class="nav-item"><span class="nav-num">19</span>PMI Aumentata</div>
-    <div class="nav-item"><span class="nav-num">20</span>Cross-Industry</div>
+    <div class="nav-item"><span class="nav-num">19</span>Multi-Tenant</div>
+    <div class="nav-item"><span class="nav-num">20</span>PMI Aumentata</div>
+    <div class="nav-item"><span class="nav-num">21</span>Cross-Industry</div>
 
     <div class="nav-section" style="color:var(--indigo)">WHY us</div>
-    <div class="nav-item"><span class="nav-num">21</span>vs ChatGPT · Copilot</div>
-    <div class="nav-item"><span class="nav-num">22</span>5 Moat Competitivi</div>
-    <div class="nav-item"><span class="nav-num">23</span>Perché Ora</div>
+    <div class="nav-item"><span class="nav-num">22</span>vs ChatGPT · Copilot</div>
+    <div class="nav-item"><span class="nav-num">23</span>5 Moat Competitivi</div>
+    <div class="nav-item"><span class="nav-num">24</span>Perché Ora</div>
 
   </nav>
 
@@ -842,7 +683,7 @@
           <span class="breadcrumb-text">The Sovereign Cognitive Tutor</span>
         </div>
         <h1>QWIKKEN Project</h1>
-        <p class="topbar-sub">Architettura Neuro-Simbolica per l'Education AI &nbsp;·&nbsp; Synthetic Data S.r.l.</p>
+        <p class="topbar-sub">Architettura Neuro-Simbolica per l'Education AI &nbsp;·&nbsp; Synthetic Data S.r.l. · 2026</p>
       </div>
       <button class="ai-toggle-btn" id="ai-toggle-btn">
         <i class="fa-solid fa-robot"></i>
@@ -854,7 +695,44 @@
   <!-- CONTENT -->
   <div class="content">
 
-    <!-- ── SEZIONE 1: Acceleratori Cognitivi ── -->
+    <!-- ── STRATEGY ── -->
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--sky)"></div>
+      <div class="section-label" style="color:var(--sky)">Strategy</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-num num-sky">01</div>
+          <span class="card-tag tag-strategy">OVERVIEW</span>
+        </div>
+        <h3>Il Progetto QWIKKEN</h3>
+        <p>Il primo tutor AI cognitivo progettato per garantire <strong>determinismo, tracciabilità e affidabilità</strong> nell'apprendimento. Architettura neuro-simbolica proprietaria (EGEMON). Missione: democratizzare il tutoring personalizzato di alta qualità per 45+ anni di relazione.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-num num-sky">02</div>
+          <span class="card-tag tag-strategy">FLAGSHIP</span>
+        </div>
+        <h3>Cognitive Twin</h3>
+        <p>Il Gemello Cognitivo: rappresentazione digitale persistente dell'intelletto. <strong>Anno 1</strong>: stile di apprendimento. <strong>Anno 5</strong>: predice i bisogni. <strong>Anno 10+</strong>: archivio irriproducibile. Non si "laurea" mai — evolve per tutta la vita professionale.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-num num-sky">03</div>
+          <span class="card-tag tag-strategy">TECH</span>
+        </div>
+        <h3>Architettura</h3>
+        <p><strong>EGEMON</strong> (Educational GEnerative MONitor) + <strong>MMS Kernel</strong> (Multi-Modal Symbolic) + <strong>Genoma</strong> (5-level config matrix). Il triumvirato neuro-simbolico che elimina le allucinazioni e garantisce audit trail completo e spiegabile.</p>
+      </div>
+
+    </div>
+
+    <!-- ── ACCELERATORI COGNITIVI ── -->
     <div class="section-header">
       <div class="section-dot" style="background:var(--cyan)"></div>
       <div class="section-label" style="color:var(--cyan)">Acceleratori Cognitivi</div>
@@ -864,34 +742,25 @@
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-cyan">01</div>
-          <span class="card-tag tag-core">CORE</span>
-        </div>
-        <h3>Cognitive Twin</h3>
-        <p>Il Gemello Cognitivo: rappresentazione digitale persistente del profilo intellettuale. <strong>Anno 1</strong>: stile di apprendimento. <strong>Anno 5</strong>: predice i bisogni futuri. <strong>Anno 10+</strong>: archivio irriproducibile dell'evoluzione intellettuale. Non si "laurea" mai — 45+ anni di relazione.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <div class="card-num num-cyan">02</div>
+          <div class="card-num num-cyan">04</div>
           <span class="card-tag tag-core">ACCELERATORE</span>
         </div>
         <h3>Acceleratore Cognitivo</h3>
-        <p>Cristallizzazione dell'expertise in <strong>Capsule Cognitive (.mms)</strong>: strumenti operativi che incapsulano la conoscenza contestuale di un esperto. Non un documento statico ma un partner attivo e interrogabile, distribuibile nel Marketplace.</p>
+        <p>Cristallizzazione dell'expertise in <strong>Capsule Cognitive (.mms)</strong>: strumenti operativi che incapsulano la conoscenza di un esperto. Non un documento statico — un partner attivo e interrogabile. Il Knowledge Worker smette di vendere ore, vende expertise scalabile.</p>
       </div>
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-cyan">03</div>
+          <div class="card-num num-cyan">05</div>
           <span class="card-tag tag-core">MARKET</span>
         </div>
         <h3>Marketplace Conoscenza</h3>
-        <p>Ecosistema dove il Knowledge Worker monetizza la propria expertise. La conoscenza diventa <strong>asset liquido e trasferibile</strong>. Vision: <em>PIL della Conoscenza</em> — il valore non sta nel possedere informazioni ma nel pacchettizzarle in strumenti operativi globali.</p>
+        <p>Ecosistema dove il Knowledge Worker monetizza la propria expertise. La conoscenza diventa <strong>asset liquido e trasferibile</strong> globalmente. Vision: <em>PIL della Conoscenza</em> — il valore non è nel possedere informazioni ma nel pacchettizzarle in strumenti operativi attivabili.</p>
       </div>
 
     </div>
 
-    <!-- ── SEZIONE 2: Analisi dei Costi ── -->
+    <!-- ── ANALISI DEI COSTI ── -->
     <div class="section-header">
       <div class="section-dot" style="background:var(--emerald)"></div>
       <div class="section-label" style="color:var(--emerald)">Analisi dei Costi</div>
@@ -901,34 +770,34 @@
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-emerald">04</div>
+          <div class="card-num num-emerald">06</div>
           <span class="card-tag tag-finops">FINOPS</span>
         </div>
         <h3>Model Cascading</h3>
-        <p>Routing intelligente a 4 livelli: <strong>Fabbrica</strong> (pre-gen batch) → <strong>Bibliotecario</strong> Flash 77% → <strong>Assistente Senior</strong> 15% → <strong>Professore</strong> Pro 8%. COGS Rev 2.0: <strong>€20.62/studente/anno</strong>. Margine lordo: <strong>79%</strong>. Il MMS Kernel decide quale cervello usare.</p>
+        <p>Routing a 4 livelli: <strong>Fabbrica</strong> (pre-gen batch) → <strong>Bibliotecario</strong> Flash 77% → <strong>Assistente Senior</strong> 15% → <strong>Professore</strong> Pro 8%. COGS Rev 2.0: <strong>€20.62/studente/anno</strong>. Margine lordo: <strong>79%</strong>.</p>
       </div>
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-emerald">05</div>
+          <div class="card-num num-emerald">07</div>
           <span class="card-tag tag-key">UNIT ECON</span>
         </div>
         <h3>Unit Economics</h3>
-        <p>Breakdown su canone <strong>€99.99/anno</strong>: Ingestione <strong>€6</strong> (Chirp + Flash) · Storage <strong>€6</strong> (AlloyDB) · Inferenza <strong>€26</strong> (Cascading + Context Caching) · Infrastruttura <strong>€2</strong>. COGS totale: <strong>€40</strong> · Margine: <strong>60%</strong>.</p>
+        <p>Canone <strong>€99.99/anno</strong>: Ingestione <strong>€6</strong> (Chirp + Flash) · Storage <strong>€6</strong> (AlloyDB) · Inferenza <strong>€26</strong> (Cascading + Caching) · Infrastruttura <strong>€2</strong>. COGS totale: <strong>€40</strong> · Margine: <strong>60%</strong> (scenario conservativo).</p>
       </div>
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-emerald">06</div>
+          <div class="card-num num-emerald">08</div>
           <span class="card-tag tag-platform">OFFLINE</span>
         </div>
         <h3>Offline Intelligence</h3>
-        <p>Modalità offline con <strong>SLM on-device</strong>: risposte pre-computate sui contenuti del corso senza connessione. Anno 3+: modelli SLM proprietari distillati da modelli Pro riducono la dipendenza dal cloud e abbattono i costi del <strong>60–70%</strong>.</p>
+        <p>SLM on-device: risposte pre-computate senza connessione. Anno 3+: modelli SLM proprietari distillati da Pro per materie universitarie specifiche. Riduzione dipendenza cloud <strong>-60-70%</strong>. Fair Use Policy: degradazione gentile a Flash dopo soglia token giornaliera.</p>
       </div>
 
     </div>
 
-    <!-- ── SEZIONE 3: Mercati e Ricavi ── -->
+    <!-- ── MERCATI E RICAVI ── -->
     <div class="section-header">
       <div class="section-dot" style="background:var(--blue)"></div>
       <div class="section-label" style="color:var(--blue)">Mercati e Ricavi</div>
@@ -938,34 +807,34 @@
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-blue">07</div>
+          <div class="card-num num-blue">09</div>
           <span class="card-tag tag-market">TARGET</span>
         </div>
         <h3>Università Telematiche</h3>
-        <p><strong>11 atenei italiani</strong>: 3 Multiversity (Pegaso, Mercatorum, San Raffaele — CVC Capital) + 8 indipendenti. Target Anno 1: <strong>Uninettuno</strong> (~18k) ed <strong>eCampus</strong> (~80k) — grandi, autonome nelle decisioni, senza soluzione compliance-ready.</p>
+        <p><strong>11 atenei italiani</strong>: 3 Multiversity (CVC Capital) + 8 indipendenti. Target Anno 1: <strong>Uninettuno</strong> (~18k, max ANVUR) ed <strong>eCampus</strong> (~80k) — grandi, autonome nelle decisioni, zero soluzioni compliance-ready sul mercato oggi.</p>
       </div>
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-blue">08</div>
+          <div class="card-num num-blue">10</div>
           <span class="card-tag tag-market">REVENUE</span>
         </div>
         <h3>B2B SaaS Model</h3>
-        <p>Licenza all'università, non allo studente. Investimento: <strong>€300k</strong> · Break-even: <strong>Anno 1</strong> · LTV Education: €245 · LTV Lifelong: <strong>€800–1.200</strong> (+5x) · Churn annuale: <strong>-40%</strong> vs competitori. Pilot: 2.000 utenti.</p>
+        <p>Licenza B2B all'università. Investimento: <strong>€300k</strong> · Break-even: <strong>Anno 1</strong> · LTV Education: €245 · LTV Lifelong: <strong>€800–1.200</strong> (+5x) · Churn: <strong>-40%</strong> vs competitor · Pilot: 2.000 studenti per validazione mercato.</p>
       </div>
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-blue">09</div>
+          <div class="card-num num-blue">11</div>
           <span class="card-tag tag-forever">FOREVER</span>
         </div>
         <h3>QWIKKEN IS FOREVER</h3>
-        <p>Il Cognitive Twin non si laurea quando ti laurei tu. Paradigma Lifelong Learning: <strong>Università → Early Career → Mid Career → Executive → Active Aging</strong>. 45+ anni di relazione continua. LTV cumulativo straordinario rispetto a ogni competitor.</p>
+        <p>Paradigma Lifelong: <strong>Università → Early Career → Mid Career → Executive → Active Aging</strong>. Il Twin non si laurea mai. 45+ anni di relazione continua. LTV cumulativo irraggiungibile da qualsiasi competitor con abbonamento annuale.</p>
       </div>
 
     </div>
 
-    <!-- ── SEZIONE 4: Piano Realizzazione ── -->
+    <!-- ── PIANO REALIZZAZIONE ── -->
     <div class="section-header">
       <div class="section-dot" style="background:var(--violet)"></div>
       <div class="section-label" style="color:var(--violet)">Piano Realizzazione</div>
@@ -975,25 +844,25 @@
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-violet">10</div>
+          <div class="card-num num-violet">12</div>
           <span class="card-tag tag-arch">ARCHITETTURA</span>
         </div>
         <h3>EGEMON Architecture</h3>
-        <p><strong>Educational GEnerative MONitor</strong> — motore neuro-simbolico proprietario. Combina inferenza LLM con Knowledge Graph + Rule Engine simbolico. Eliminazione delle allucinazioni sui contenuti del corso. Foundation dell'intera piattaforma QWIKKEN.</p>
+        <p><strong>Educational GEnerative MONitor</strong> — motore neuro-simbolico proprietario. Combina inferenza LLM con Knowledge Graph + Rule Engine. Quasi zero allucinazioni sui contenuti del corso. Foundation tecnologica di tutta la piattaforma QWIKKEN.</p>
       </div>
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-violet">11</div>
+          <div class="card-num num-violet">13</div>
           <span class="card-tag tag-arch">KERNEL</span>
         </div>
         <h3>MMS Kernel</h3>
-        <p><strong>Multi-Modal Symbolic Kernel</strong> — orchestratore centrale deterministico. Pipeline: Parser → Router → Retriever → Generator → Validator. A parità di input produce sempre output identico e tracciabile. Zero allucinazioni sui contenuti del corso.</p>
+        <p><strong>Multi-Modal Symbolic Kernel</strong> — orchestratore centrale deterministico. Pipeline: Parser → Router → Retriever → Generator → Validator. A parità di input produce output identico e tracciabile ogni volta. Zero allucinazioni sui contenuti del corso.</p>
       </div>
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-violet">12</div>
+          <div class="card-num num-violet">14</div>
           <span class="card-tag tag-arch">DNA</span>
         </div>
         <h3>Il Genoma</h3>
@@ -1002,25 +871,16 @@
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-violet">13</div>
+          <div class="card-num num-violet">15</div>
           <span class="card-tag tag-engine">ENGINE</span>
         </div>
-        <h3>SENSORIUM &amp; SYNAPSE</h3>
-        <p><strong>SENSORIUM</strong>: ingestion multimodale (PDF, DOCX, Video, Audio, OCR lavagna). <strong>SYNAPSE</strong>: Knowledge Graph con relazioni REQUIRES, PART_OF, RELATED_TO, ASSESSED_BY. Memoria semantica persistente e curricolarmente contestualizzata.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <div class="card-num num-violet">14</div>
-          <span class="card-tag tag-engine">ENGINE</span>
-        </div>
-        <h3>SOCRATES · ARENA · SENTINEL</h3>
-        <p><strong>SOCRATES</strong>: tutoring maieutico (metodo Vygotsky, ZSP). <strong>ARENA</strong>: simulazioni esame adattive con active recall procedurale. <strong>SENTINEL</strong>: governance XAI, audit trail immutabile, compliance AI Act EU. Il triumvirato dell'apprendimento.</p>
+        <h3>ARENA · SENTINEL</h3>
+        <p><strong>ARENA</strong>: simulazioni esame adattive, active recall procedurale, 6 simulazioni/anno. <strong>SENTINEL</strong>: governance XAI, audit trail immutabile per ogni decisione AI, compliance AI Act EU Art.13. Prerequisito non negoziabile per adozione universitaria istituzionale.</p>
       </div>
 
     </div>
 
-    <!-- ── SEZIONE 5: Proprietà Intellettuale ── -->
+    <!-- ── PROPRIETÀ INTELLETTUALE ── -->
     <div class="section-header">
       <div class="section-dot" style="background:var(--amber)"></div>
       <div class="section-label" style="color:var(--amber)">Proprietà Intellettuale</div>
@@ -1030,34 +890,34 @@
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-amber">15</div>
+          <div class="card-num num-amber">16</div>
           <span class="card-tag tag-ip">IP</span>
         </div>
         <h3>IP Genome</h3>
-        <p>Il Genoma come strumento legale: ogni output cita la fonte e rispetta il <strong>Silos di Intelligence</strong>. Ciò che appartiene all'azienda rimane aziendale. L'elaborazione originale dell'utente diventa il suo <strong>Asset Proprietario</strong> — non espropriabile dal sistema.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <div class="card-num num-amber">16</div>
-          <span class="card-tag tag-ip">CERTIF</span>
-        </div>
-        <h3>Genesis Certificate</h3>
-        <p>Ogni output significativo riceve un certificato: data, fonti utilizzate, versione modello AI, <strong>livello assistenza AI vs contributo umano</strong>. Prerequisito non negoziabile per compliance universitaria e AI Act EU Art. 13 (trasparenza).</p>
+        <p>Il Genoma come strumento legale: ogni output cita la fonte e rispetta il <strong>Silos di Intelligence</strong>. Dati aziendali segregati. L'elaborazione originale dell'utente diventa il suo <strong>Asset Proprietario</strong> — non espropriabile né condiviso senza consenso.</p>
       </div>
 
       <div class="card">
         <div class="card-top">
           <div class="card-num num-amber">17</div>
+          <span class="card-tag tag-ip">CERTIF</span>
+        </div>
+        <h3>Genesis Certificate</h3>
+        <p>Certificato per ogni output: data, fonti, versione modello AI, <strong>livello assistenza AI vs contributo umano</strong>. Compliance AI Act EU Art.13. Prerequisito non negoziabile per adozione universitaria istituzionale. Ogni risposta è verificabile e difendibile.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-num num-amber">18</div>
           <span class="card-tag tag-ip">LEGAL</span>
         </div>
         <h3>Contractual Genome</h3>
-        <p>Il Genoma come documento contrattuale: definisce vincoli legali, etici e operativi del Cognitive Twin in ogni contesto (PA, Aziende, Università). Aggiornabile centralmente — es. <em>"Nuova Legge Appalti"</em> propagata istantaneamente a tutti i tenant attivi.</p>
+        <p>Il Genoma come documento contrattuale vivo: definisce vincoli legali, etici e operativi per ogni contesto (PA, Aziende, Università). Nuova normativa → propagazione istantanea a tutti i tenant attivi. Es: <em>"Nuova Legge Appalti"</em> → aggiornamento automatico globale.</p>
       </div>
 
     </div>
 
-    <!-- ── SEZIONE 6: Scalabilità ── -->
+    <!-- ── SCALABILITÀ ── -->
     <div class="section-header">
       <div class="section-dot" style="background:var(--rose)"></div>
       <div class="section-label" style="color:var(--rose)">Scalabilità</div>
@@ -1067,34 +927,34 @@
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-rose">18</div>
+          <div class="card-num num-rose">19</div>
           <span class="card-tag tag-scale">INFRA</span>
         </div>
         <h3>Multi-Tenant Architecture</h3>
-        <p>Microservizi su <strong>Kubernetes</strong>: auto-scaling CPU, Redis caching, sharding fisico dati sensibili (PA vs Enterprise). Ogni tenant: namespace crittografato isolato. DB Vettoriale (Qdrant) + PostgreSQL + Neo4j + S3. Resiliente, sicuro, veloce.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <div class="card-num num-rose">19</div>
-          <span class="card-tag tag-scale">SME</span>
-        </div>
-        <h3>PMI Aumentata</h3>
-        <p>La PMI ottiene processi da multinazionale: Genoma aziendale pre-configurato (AI Act + GDPR + Codice Etico), knowledge base segregata, compliance documentata. <strong>Democratizzazione dell'Eccellenza</strong> — lo stesso livello operativo delle grandi imprese globali.</p>
+        <p>Microservizi su <strong>Kubernetes</strong>: auto-scaling CPU, Redis caching, sharding fisico PA/Enterprise. Ogni tenant: namespace crittografato isolato. Qdrant + PostgreSQL + Neo4j + S3. Resiliente, sicuro, zero single point of failure.</p>
       </div>
 
       <div class="card">
         <div class="card-top">
           <div class="card-num num-rose">20</div>
+          <span class="card-tag tag-scale">SME</span>
+        </div>
+        <h3>PMI Aumentata</h3>
+        <p>La PMI ottiene processi da multinazionale: Genoma pre-configurato (AI Act + GDPR + Codice Etico), knowledge base segregata, compliance documentata automaticamente. <strong>Democratizzazione dell'Eccellenza</strong> per le imprese italiane che competono globalmente.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-num num-rose">21</div>
           <span class="card-tag tag-scale">VERTICAL</span>
         </div>
         <h3>Cross-Industry</h3>
-        <p>L'architettura EGEMON è <strong>domain-agnostic</strong>: Education (QWIKKEN) → Credit (qwikken-credit) → Legal → Healthcare → Finance. Il Genoma si riscrive, il Kernel rimane invariato. Scalabilità orizzontale verso nuovi mercati verticali senza riscrivere il core.</p>
+        <p>EGEMON è <strong>domain-agnostic</strong>: Education (QWIKKEN) → Credit (qwikken-credit) → Legal → Healthcare → Finance. Il Genoma si riscrive per il dominio, il Kernel rimane invariato. Ogni verticale è un nuovo mercato accessibile senza riscrivere il core tecnologico.</p>
       </div>
 
     </div>
 
-    <!-- ── SEZIONE 7: WHY us ── -->
+    <!-- ── WHY US ── -->
     <div class="section-header">
       <div class="section-dot" style="background:var(--indigo)"></div>
       <div class="section-label" style="color:var(--indigo)">WHY us</div>
@@ -1104,29 +964,29 @@
 
       <div class="card">
         <div class="card-top">
-          <div class="card-num num-indigo">21</div>
+          <div class="card-num num-indigo">22</div>
           <span class="card-tag tag-diff">VS</span>
         </div>
         <h3>vs ChatGPT · Copilot</h3>
-        <p>ChatGPT: allucinazioni 15-20%, no struttura curricolare, no audit, no compliance. QWIKKEN: <strong>quasi zero allucinazioni</strong> (bounded reasoning sul Genoma), curricolo nativo, audit trail completo, AI Act EU nativa, Cognitive Twin lifelong persistente.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <div class="card-num num-indigo">22</div>
-          <span class="card-tag tag-moat">MOAT</span>
-        </div>
-        <h3>5 Moat Competitivi</h3>
-        <p><strong>Technology</strong>: MMS + Genoma non replicabili via API. <strong>Data</strong>: Twin irriproducibile (dati comportamentali accumulati). <strong>Network</strong>: flywheel studenti→docenti→università. <strong>Integration</strong>: switching cost LMS. <strong>Trust</strong>: GDPR + AI Act EU nativa.</p>
+        <p>ChatGPT: allucinazioni 15-20%, no struttura curricolare, no audit, no compliance EU. QWIKKEN: <strong>quasi zero allucinazioni</strong> (bounded reasoning sul Genoma), curricolo nativo, audit trail, AI Act EU nativa, Cognitive Twin lifelong persistente. Non è confrontabile.</p>
       </div>
 
       <div class="card">
         <div class="card-top">
           <div class="card-num num-indigo">23</div>
+          <span class="card-tag tag-moat">MOAT</span>
+        </div>
+        <h3>5 Moat Competitivi</h3>
+        <p><strong>Technology</strong>: MMS + Genoma non replicabili. <strong>Data</strong>: Twin irriproducibile. <strong>Network</strong>: flywheel studenti→docenti→università. <strong>Integration</strong>: switching cost LMS alto. <strong>Trust</strong>: GDPR + AI Act EU — vantaggio assoluto in Europa post-2026.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-num num-indigo">24</div>
           <span class="card-tag tag-indigo">TIMING</span>
         </div>
         <h3>Perché Ora</h3>
-        <p>Tre forze convergenti: <strong>AI Act EU</strong> in vigore 2026 (compliance obbligatoria) · <strong>Mercato Education AI</strong> $20B entro 2030 · <strong>Finestra ante-consolidation</strong>: 11 atenei telematici italiani senza soluzione compliance-ready. La finestra si chiude presto.</p>
+        <p>Tre forze convergenti: <strong>AI Act EU</strong> in vigore 2026 (compliance obbligatoria) · <strong>Mercato Education AI</strong> $20B entro 2030 · <strong>Finestra ante-consolidation</strong>: 11 atenei telematici italiani senza soluzione compliance-ready. La finestra si chiude tra 18-24 mesi.</p>
       </div>
 
     </div>
@@ -1134,24 +994,26 @@
   </div><!-- /content -->
 </div><!-- /main -->
 
-<!-- ═══════════════ AI PANEL ═══════════════ -->
+<!-- ═══════════════ AI PANEL — Permanent Right Sidebar ═══════════════ -->
 <div class="ai-panel" id="ai-panel">
 
   <div class="ai-panel-header">
     <div class="ai-panel-icon"><i class="fa-solid fa-robot"></i></div>
-    <div style="flex:1">
+    <div style="flex:1;min-width:0">
       <div class="ai-panel-title">QWIKKEN AI</div>
-      <div class="ai-panel-sub">Rispondi domande sulla documentazione</div>
+      <div class="ai-panel-sub">Sessione Q&amp;A · Documentazione live</div>
     </div>
-    <button class="ai-panel-close" id="ai-panel-close"><i class="fa-solid fa-xmark"></i></button>
+    <button class="ai-panel-close" id="ai-panel-close" title="Riduci pannello">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
   </div>
 
   <div class="ai-model-bar">
     <span class="ai-model-label">Modello:</span>
     <select class="ai-model-select" id="ai-model-select">
-      <option value="anthropic/claude-opus-4.6" selected>Claude Opus 4.6 (principale)</option>
-      <option value="anthropic/claude-haiku-4-5-20251001">Claude Haiku 4.5 (veloce)</option>
-      <option value="google/gemini-flash-1.5">Gemini Flash (economico)</option>
+      <option value="anthropic/claude-opus-4.6" selected>Claude Opus 4.6</option>
+      <option value="anthropic/claude-haiku-4-5-20251001">Claude Haiku 4.5 (fast)</option>
+      <option value="google/gemini-flash-1.5">Gemini Flash (budget)</option>
     </select>
     <button class="ai-key-btn" id="ai-key-btn" title="Imposta API Key">
       <i class="fa-solid fa-key"></i>
@@ -1162,8 +1024,8 @@
     <div class="ai-empty" id="ai-empty">
       <div class="ai-empty-icon"><i class="fa-solid fa-comments"></i></div>
       <div class="ai-empty-text">
-        Scrivi una domanda sulla documentazione QWIKKEN.<br/>
-        L'AI risponderà in base alla monografia tecnica, al business plan e alla visione strategica.
+        Fai una domanda sul progetto QWIKKEN.<br/>
+        L'AI risponde dalla documentazione tecnica,<br/>strategica e finanziaria.
       </div>
     </div>
   </div>
@@ -1173,12 +1035,11 @@
       <textarea
         class="ai-textarea"
         id="ai-textarea"
-        spellcheck="true"
-        placeholder="Scrivi la tua domanda su QWIKKEN..."
+        placeholder="Domanda su QWIKKEN..."
         rows="3"
       ></textarea>
       <div class="ai-textarea-actions">
-        <span class="ai-hint-text">Invio · Shift+Invio per andare a capo</span>
+        <span class="ai-hint-text">↵ invia &nbsp;·&nbsp; Shift+↵ a capo</span>
         <button class="ai-send-btn" id="ai-send-btn">
           <i class="fa-solid fa-paper-plane"></i>
           Invia
@@ -1204,7 +1065,7 @@
 </div>
 
 <script>
-  // Sidebar nav highlight
+  // ── Sidebar nav highlight ──
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -1212,10 +1073,10 @@
     });
   });
 
-  // Modal logic
-  const overlay   = document.getElementById('modal');
-  const modalNum  = document.getElementById('modal-num');
-  const modalTag  = document.getElementById('modal-tag');
+  // ── Modal ──
+  const overlay    = document.getElementById('modal');
+  const modalNum   = document.getElementById('modal-num');
+  const modalTag   = document.getElementById('modal-tag');
   const modalTitle = document.getElementById('modal-title');
   const modalBody  = document.getElementById('modal-body');
 
@@ -1224,401 +1085,184 @@
     const tag   = card.querySelector('.card-tag');
     const title = card.querySelector('h3');
     const body  = card.querySelector('p');
-
     modalNum.textContent = num.textContent;
-    modalNum.className   = 'modal-num ' + num.className.replace('card-num', '').trim();
-
+    modalNum.className   = 'modal-num ' + num.className.replace('card-num','').trim();
     if (tag) {
       modalTag.textContent = tag.textContent;
-      modalTag.className   = 'modal-tag ' + tag.className.replace('card-tag', '').trim();
+      modalTag.className   = 'modal-tag ' + tag.className.replace('card-tag','').trim();
       modalTag.style.display = 'inline-block';
-    } else {
-      modalTag.style.display = 'none';
-    }
-
+    } else { modalTag.style.display = 'none'; }
     modalTitle.textContent = title.textContent;
     modalBody.innerHTML    = body.innerHTML;
-
     overlay.classList.add('open');
   }
 
-  function closeModal() {
-    overlay.classList.remove('open');
-  }
+  function closeModal() { overlay.classList.remove('open'); }
 
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', () => openModal(card));
-  });
-
+  document.querySelectorAll('.card').forEach(c => c.addEventListener('click', () => openModal(c)));
   document.getElementById('modal-close').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) closeModal();
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      closeModal();
-      aiPanel.classList.remove('open');
-      aiToggleBtn.classList.remove('active');
-    }
-  });
-
-  // ══════════════════════════════════════════════
-  //  AI PANEL — QWIKKEN Knowledge Assistant
-  // ══════════════════════════════════════════════
-
-  const DOCS_CONTEXT = `
-# QWIKKEN — Documentazione di Riferimento (Rev 2.0 · Febbraio 2026)
-Synthetic Data S.r.l. · Graziano Guiducci & Lorenzo Bosio
-
----
-
-## ACCELERATORI COGNITIVI
-
-### Cognitive Twin (Il Gemello Cognitivo)
-Rappresentazione digitale persistente del profilo intellettuale dell'utente. Non è un semplice profilo: è un sistema che apprende e cresce.
-- Anno 1: stile di apprendimento, punti di forza/debolezza
-- Anno 5: predice i bisogni futuri di apprendimento
-- Anno 10+: archivio irriproducibile dell'evoluzione intellettuale
-Il Twin non si "laurea" quando l'utente si laurea — continua per 45+ anni.
-
-### Acceleratore Cognitivo
-Cristallizzazione dell'expertise in Capsule Cognitive (formato .mms): strumenti operativi che incapsulano la conoscenza contestuale di un esperto. A differenza di un documento PDF, una Capsula Cognitiva è interrogabile, aggiornabile e distribuibile nel Marketplace. Il Knowledge Worker smette di vendere ore e inizia a vendere expertise scalabile.
-
-### Marketplace Conoscenza
-Ecosistema dove i Knowledge Worker monetizzano la propria expertise sotto forma di Capsule Cognitive. La conoscenza diventa asset liquido e trasferibile globalmente. Vision strategica: "PIL della Conoscenza" — il valore non sta nel possedere informazioni ma nel pacchettizzarle in strumenti operativi attivabili su richiesta.
-
----
-
-## ANALISI DEI COSTI
-
-### Model Cascading (Rev 2.0)
-Routing intelligente a 4 livelli orchestrato dal MMS Kernel:
-1. Fabbrica (pre-generazione batch): risponde ~50% domande senza chiamate LLM in tempo reale
-2. Bibliotecario Flash (77% del traffico live): €0.10/M token
-3. Assistente Senior (15%): modello intermedio per ragionamenti complessi
-4. Professore Pro (8%): solo per simulazioni esame e analisi profonde
-
-COGS Rev 2.0: €20.62/studente/anno
-- Ingestione: €4.80 (video 120h con Chirp) + €1.20 (libri/PDF) = €6.00
-- Storage AlloyDB: €6.00/anno
-- Inferenza (Flash + Pro con Context Caching): €6.62
-- Infrastruttura: €2.00
-- TOTALE COGS: €20.62 → Margine lordo su €99.99: 79%
-
-### Unit Economics (versione conservativa)
-Breakdown costi su canone €99.99/anno (scenario conservativo senza pre-gen):
-- Ingestione: €6.00
-- Storage: €6.00
-- Inferenza Flash+Pro+Cache: €26.00
-- Infrastruttura: €2.00
-- TOTALE: €40.00 → Margine: 60%
-
-### Offline Intelligence
-Modalità offline con SLM (Small Language Model) on-device:
-- Risposte pre-computate sui contenuti del corso specifico
-- Funzionamento senza connessione internet
-- Anno 3+: SLM proprietari distillati da modelli Pro su materie universitarie specifiche
-- Riduzione dipendenza dal cloud: -60-70% costi inferenza
-- "Fair Use Policy": dopo un certo numero di token Premium giornalieri, il sistema degrada a Flash (stesso modello di ChatGPT Plus)
-
----
-
-## MERCATI E RICAVI
-
-### Università Telematiche Italiane
-11 atenei italiani totali:
-- Multiversity (unico interlocutore corporate — CVC Capital Partners): Pegaso, Mercatorum, San Raffaele Roma
-- 8 indipendenti: eCampus (~80.000 studenti), Niccolò Cusano (~30.000), Uninettuno (~18.000), Guglielmo Marconi (~12.000), IUL (~12.000), Giustino Fortunato (~10.000), Unitelma Sapienza (~6.000), Leonardo da Vinci (~4.000)
-Target Anno 1: Uninettuno (massimo giudizio ANVUR) ed eCampus — grandi, autonome, senza soluzione compliance-ready
-
-### B2B SaaS Model
-Modello di business: licenza B2B all'università, non direttamente allo studente.
-- Investimento richiesto: €300.000
-- Break-even previsto: Anno 1
-- LTV Education Only: €245/utente
-- LTV Lifelong Model: €800–1.200/utente (+5x)
-- Churn annuale: -40% rispetto ai competitori
-- Pilot: 2.000 utenti per validazione mercato
-- Target 2030: espansione europea e formazione aziendale
-
-### QWIKKEN IS FOREVER
-Paradigma Lifelong Learning che rivoluziona il LTV:
-- Università → Early Career → Mid Career → Executive → Active Aging
-- 45+ anni di relazione continua con il Cognitive Twin
-- Il Twin accumula dati comportamentali irriproducibili nel tempo
-- Ogni anno che passa il valore del Twin aumenta — switching cost assoluto
-- LTV cumulativo straordinario vs qualsiasi competitor a abbonamento annuale
-
----
-
-## PIANO REALIZZAZIONE
-
-### EGEMON Architecture
-EGEMON = Educational GEnerative MONitor. Motore neuro-simbolico proprietario che combina:
-- Inferenza neurale (LLM): comprensione del linguaggio naturale, generazione
-- Reasoning simbolico (Knowledge Graph + Rule Engine): determinismo, tracciabilità, compliance
-Il risultato: quasi zero allucinazioni sui contenuti del corso perché il sistema ragiona SOLO all'interno dei confini del Genoma.
-
-### MMS Kernel
-MMS = Multi-Modal Symbolic Kernel. Orchestratore centrale deterministico.
-Pipeline completa: Parser → Router → Retriever → Generator → Validator
-- Parser: analizza l'intent dell'utente
-- Router: seleziona il modello più appropriato (Model Cascading)
-- Retriever: recupera i chunk rilevanti dalla PKL (RAG sul Genoma)
-- Generator: genera la risposta con il modello selezionato
-- Validator: verifica citazioni, compliance, tono
-A parità di Input + Genoma + Libreria → output identico ogni volta (determinismo).
-
-### Il Genoma
-Matrice semantica di configurazione a 5 livelli:
-1. Governance (Kernel Assiomatico): "Non allucinare mai. Cita sempre la fonte."
-2. Domain (Istituzionale): regole specifiche dell'ateneo o azienda
-3. User (Personalizzazione): preferenze stile, obiettivi, punti di forza/debolezza
-4. Contractual: vincoli legali, budget, normative
-5. IP: protezione della proprietà intellettuale delle fonti
-Il Genoma è il DNA del Cognitive Twin: non si altera senza autorizzazione.
-
-### SENSORIUM & SYNAPSE
-SENSORIUM (Ingestion Engine):
-- Supporta: PDF, DOCX, PPTX, immagini (OCR lavagna), video (trascrizione Chirp), audio
-- Fino a 10.000 documenti per corso
-- Pipeline asincrona: OCR Worker + Parser Worker + Chunker
-- Indicizzo vettoriale nella Personal Knowledge Library (PKL)
-
-SYNAPSE (Knowledge Graph Engine):
-- Gestisce il Genoma curricolare
-- Relazioni: REQUIRES (propedeuticità), PART_OF (gerarchia), RELATED_TO (collegamento), ASSESSED_BY (valutazione)
-- Database a grafo: Neo4j
-- Garantisce coerenza didattica in ogni risposta
-
-### SOCRATES · ARENA · SENTINEL
-SOCRATES (Tutoring Engine):
-- Metodo maieutico: non fornisce risposte dirette ma guida attraverso domande
-- Metodo Vygotsky: lavora nella Zona di Sviluppo Prossimale
-- Sessioni deep dive 2/settimana (alta complessità → L2/L3 nel Cascading)
-
-ARENA (Assessment Engine):
-- Quiz adattivi con difficoltà basata sul profilo dello studente
-- 6 simulazioni esame complete/anno (1h ciascuna — L3 nel Cascading)
-- Active recall procedurale
-- Feedback dettagliato con citazione delle fonti
-
-SENTINEL (Governance Engine):
-- Audit trail immutabile: Input → Genoma attivato → Fonti → Ragionamento → Output
-- XAI (Explainable AI) by design: ogni decisione spiegabile
-- Compliance AI Act EU (Art. 13 trasparenza, Art. 9 risk management)
-- Prerequisito obbligatorio per adozione universitaria istituzionale
-
----
-
-## PROPRIETÀ INTELLETTUALE
-
-### IP Genome
-Il Genoma come strumento di protezione della proprietà intellettuale:
-- Silos di Intelligence: ciò che appartiene all'azienda rimane nel Silos Aziendale
-- L'elaborazione originale dell'utente diventa il suo Asset Proprietario
-- Ciò che è di terze parti (libro caricato) viene citato ma non espropriato
-- Traccia della genesi di ogni informazione
-
-### Genesis Certificate
-Certificato di autenticità per ogni output significativo:
-- Data e ora di generazione
-- Fonti utilizzate (con riferimenti precisi)
-- Versione del modello AI
-- Livello di assistenza AI vs contributo umano
-- Conformità: AI Act EU Art. 13, compliance universitaria
-- Prerequisito non negoziabile per adozione istituzionale
-
-### Contractual Genome
-Il Genoma come documento contrattuale vivo:
-- Definisce vincoli legali, etici e operativi
-- Specifica chi può accedere a cosa (IAM)
-- Aggiornabile centralmente: nuova normativa → propagazione istantanea a tutti i tenant
-- Esempio: "Nuova Legge Appalti" → il Genoma PA si aggiorna → tutti i dipendenti PA ricevono la nuova versione automaticamente
-- Garantisce che l'AI non suggerisca mai violazioni normative
-
----
-
-## SCALABILITÀ
-
-### Multi-Tenant Architecture
-Infrastruttura enterprise su Kubernetes:
-- Docker containers + Kubernetes orchestration
-- Auto-scaling: i container aumentano automaticamente con il carico CPU
-- Database Vettoriale (Qdrant/Milvus): namespace crittografato isolato per ogni tenant
-- Database Relazionale (PostgreSQL): profili, abbonamenti, configurazioni Genoma
-- Database a Grafo (Neo4j): Knowledge Graph e relazioni concettuali
-- Blob Storage S3-compatible: file originali crittografati a riposo
-- Redis caching: domande frequenti in cache → latenza zero + risparmio costi
-- Sharding fisico: dati PA su server A, dati Enterprise su server B
-
-### PMI Aumentata
-Caso d'uso PMI (Piccole e Medie Imprese):
-- Il Genoma pre-configurato include: AI Act + GDPR + Codice Etico aziendale
-- La PMI ottiene compliance documentale automatica di ogni output
-- Knowledge base aziendale segregata e crittografata
-- "Democratizzazione dell'Eccellenza": la PMI italiana con processi da multinazionale
-- Stesso livello di governance e protezione IP delle grandi imprese globali
-
-### Cross-Industry Scalability
-L'architettura EGEMON è domain-agnostic:
-1. Education: QWIKKEN (tutor cognitivo universitario)
-2. Credit: qwikken-credit (mediazione creditizia, analisi merito)
-3. Legal: compliance legale, ricerca normativa
-4. Healthcare: protocolli medici, formazione clinica
-5. Finance: analisi finanziaria, advisory
-Il Genoma si riscrive per il nuovo dominio, il Kernel MMS rimane invariato. Ogni verticale è un nuovo mercato accessibile senza riscrivere il core tecnologico.
-
----
-
-## WHY US
-
-### vs ChatGPT · Copilot
-| Caratteristica | ChatGPT/Copilot | QWIKKEN |
-|---|---|---|
-| Allucinazioni | 15-20% | Quasi zero (bounded reasoning) |
-| Struttura curricolare | Non supportata | Nativa (Genoma 5 livelli) |
-| Audit trail | Non disponibile | Completo e immutabile |
-| Compliance AI Act EU | Non dichiarata | Nativa (SENTINEL) |
-| Cognitive Twin | Non esiste | Persistente lifelong 45+ anni |
-| Integrazione LMS | Plugin basilari | Connector profondo (Moodle, BB) |
-| IP Protection | Nessuna | Silos di Intelligence + Genesis Cert |
-
-### 5 Moat Competitivi
-1. Technology Moat: MMS Kernel + Genoma proprietari — non replicabili tramite semplici API generiche
-2. Data Moat: Il Cognitive Twin accumula dati comportamentali irriproducibili — impossibile da copiare
-3. Network Moat: flywheel studenti → docenti → università → più studenti (effetto rete)
-4. Integration Moat: integrazione profonda con LMS crea switching cost elevato
-5. Trust Moat: compliance GDPR + AI Act EU nativa — vantaggio competitivo assoluto in Europa post-2026
-
-### Perché Ora — Il Timing
-Tre forze convergenti che creano la finestra:
-1. AI Act EU in vigore 2026: la compliance AI diventa obbligatoria, non opzionale. Chi non è pronto perderà gare e contratti pubblici.
-2. Mercato Education AI: $20B entro 2030 (CAGR 38%). Il consolidamento è in corso — chi arriva tardi trova mercato già diviso.
-3. Finestra ante-consolidation: 11 atenei telematici italiani oggi senza soluzione compliance-ready. Tra 18-24 mesi i big tech si muoveranno su questo segmento.
-La finestra si chiude. QWIKKEN deve entrare ora con il pilot da 2.000 studenti per creare il data moat.
-`;
-
-  const LS_API_KEY = 'qwikken_openrouter_key';
-
-  const aiPanel    = document.getElementById('ai-panel');
-  const aiToggleBtn = document.getElementById('ai-toggle-btn');
+  // ── AI Panel — toggle ──
+  const aiPanel      = document.getElementById('ai-panel');
+  const aiToggleBtn  = document.getElementById('ai-toggle-btn');
   const aiPanelClose = document.getElementById('ai-panel-close');
-  const aiMessages = document.getElementById('ai-messages');
-  const aiEmpty    = document.getElementById('ai-empty');
-  const aiTextarea = document.getElementById('ai-textarea');
-  const aiSendBtn  = document.getElementById('ai-send-btn');
-  const aiModelSelect = document.getElementById('ai-model-select');
-  const aiKeyBtn   = document.getElementById('ai-key-btn');
+  const aiMessages   = document.getElementById('ai-messages');
+  const aiEmpty      = document.getElementById('ai-empty');
+  const aiTextarea   = document.getElementById('ai-textarea');
+  const aiSendBtn    = document.getElementById('ai-send-btn');
+  const aiModelSel   = document.getElementById('ai-model-select');
+  const aiKeyBtn     = document.getElementById('ai-key-btn');
 
-  let chatHistory = [];
-
-  function getApiKey() {
-    let key = localStorage.getItem(LS_API_KEY);
-    if (!key) {
-      key = prompt('Inserisci la tua OpenRouter API Key per usare QWIKKEN AI:\n(Verrà salvata localmente, non condivisa)');
-      if (key && key.trim()) localStorage.setItem(LS_API_KEY, key.trim());
-    }
-    return key ? key.trim() : null;
-  }
-
+  // Panel starts open — toggle to collapse/expand
   aiToggleBtn.addEventListener('click', () => {
-    aiPanel.classList.toggle('open');
-    aiToggleBtn.classList.toggle('active');
-    if (aiPanel.classList.contains('open')) {
-      setTimeout(() => aiTextarea.focus(), 280);
-    }
+    const collapsed = aiPanel.classList.toggle('collapsed');
+    aiToggleBtn.classList.toggle('active', !collapsed);
+    if (!collapsed) setTimeout(() => aiTextarea.focus(), 300);
   });
 
   aiPanelClose.addEventListener('click', () => {
-    aiPanel.classList.remove('open');
+    aiPanel.classList.add('collapsed');
     aiToggleBtn.classList.remove('active');
   });
 
+  // Mark button active on load (panel starts open)
+  aiToggleBtn.classList.add('active');
+
+  // ── API Key ──
+  const LS_KEY = 'qwikken_openrouter_key';
+
+  function getApiKey() {
+    let k = localStorage.getItem(LS_KEY);
+    if (!k) {
+      k = prompt('Inserisci la tua OpenRouter API Key:\n(Salvata localmente nel browser, mai condivisa)');
+      if (k && k.trim()) localStorage.setItem(LS_KEY, k.trim());
+    }
+    return k ? k.trim() : null;
+  }
+
   aiKeyBtn.addEventListener('click', () => {
-    const current = localStorage.getItem(LS_API_KEY) || '';
-    const key = prompt('OpenRouter API Key:', current);
-    if (key !== null) localStorage.setItem(LS_API_KEY, key.trim());
+    const cur = localStorage.getItem(LS_KEY) || '';
+    const k = prompt('OpenRouter API Key:', cur);
+    if (k !== null) localStorage.setItem(LS_KEY, k.trim());
   });
+
+  // ── Chat ──
+  let chatHistory = [];
 
   aiTextarea.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendAiMessage();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
   });
-
-  aiSendBtn.addEventListener('click', sendAiMessage);
+  aiSendBtn.addEventListener('click', sendMsg);
 
   function appendMsg(role, html) {
     aiEmpty.style.display = 'none';
     const wrap = document.createElement('div');
     wrap.className = `ai-msg ${role}`;
-
-    const avatar = document.createElement('div');
-    avatar.className = 'ai-msg-avatar';
-    avatar.innerHTML = role === 'user'
-      ? '<i class="fa-solid fa-user"></i>'
-      : '<i class="fa-solid fa-robot"></i>';
-
-    const bubble = document.createElement('div');
-    bubble.className = 'ai-msg-bubble';
-    bubble.innerHTML = html;
-
-    wrap.appendChild(avatar);
-    wrap.appendChild(bubble);
+    const av = document.createElement('div');
+    av.className = 'ai-msg-avatar';
+    av.innerHTML = role === 'user' ? '<i class="fa-solid fa-user"></i>' : '<i class="fa-solid fa-robot"></i>';
+    const bbl = document.createElement('div');
+    bbl.className = 'ai-msg-bubble';
+    bbl.innerHTML = html;
+    wrap.appendChild(av);
+    wrap.appendChild(bbl);
     aiMessages.appendChild(wrap);
     aiMessages.scrollTop = aiMessages.scrollHeight;
-    return bubble;
+    return bbl;
   }
 
-  function addTypingIndicator() {
+  function addTyping() {
     const wrap = document.createElement('div');
     wrap.className = 'ai-msg assistant';
-    wrap.id = 'ai-typing-indicator';
-
-    const avatar = document.createElement('div');
-    avatar.className = 'ai-msg-avatar';
-    avatar.innerHTML = '<i class="fa-solid fa-robot"></i>';
-
-    const bubble = document.createElement('div');
-    bubble.className = 'ai-msg-bubble ai-typing-bubble';
-    bubble.innerHTML = '<span></span><span></span><span></span>';
-
-    wrap.appendChild(avatar);
-    wrap.appendChild(bubble);
+    wrap.id = 'ai-typing';
+    const av = document.createElement('div');
+    av.className = 'ai-msg-avatar';
+    av.innerHTML = '<i class="fa-solid fa-robot"></i>';
+    const bbl = document.createElement('div');
+    bbl.className = 'ai-msg-bubble ai-typing-bubble';
+    bbl.innerHTML = '<span></span><span></span><span></span>';
+    wrap.appendChild(av);
+    wrap.appendChild(bbl);
     aiMessages.appendChild(wrap);
     aiMessages.scrollTop = aiMessages.scrollHeight;
     return wrap;
   }
 
-  function formatReply(text) {
-    return text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g, '<em>$1</em>')
-      .replace(/\n/g, '<br>');
+  function fmt(t) {
+    return t
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/\n/g,'<br>');
   }
 
-  async function sendAiMessage() {
+  const DOCS_CONTEXT = `
+# QWIKKEN — Documentazione di Riferimento (Rev 2.0 · Febbraio 2026)
+Synthetic Data S.r.l. · Graziano Guiducci & Lorenzo Bosio
+
+## STRATEGY — Il Progetto
+QWIKKEN = The Sovereign Cognitive Tutor. Primo tutor AI progettato per garantire determinismo, tracciabilità e affidabilità nell'apprendimento. Architettura neuro-simbolica proprietaria (EGEMON). Fondata da Synthetic Data S.r.l.
+
+## STRATEGY — Cognitive Twin
+Il Gemello Cognitivo: rappresentazione digitale persistente del profilo intellettuale. Anno 1: stile di apprendimento. Anno 5: predice i bisogni futuri. Anno 10+: archivio irriproducibile dell'evoluzione intellettuale. Non si "laurea" mai — 45+ anni di relazione continua.
+
+## STRATEGY — Architettura
+Triumvirato neuro-simbolico: EGEMON (Educational GEnerative MONitor) + MMS Kernel (Multi-Modal Symbolic Kernel) + Il Genoma (matrice semantica 5 livelli). Eliminazione quasi totale delle allucinazioni. Audit trail completo e spiegabile.
+
+## ACCELERATORI COGNITIVI
+Capsule Cognitive (.mms): strumenti che cristallizzano l'expertise di un esperto in forma interrogabile. Knowledge Worker vende expertise scalabile, non ore. Marketplace Conoscenza: ecosistema dove la conoscenza diventa asset liquido ("PIL della Conoscenza").
+
+## ANALISI DEI COSTI
+Model Cascading Rev 2.0 — 4 livelli:
+1. Fabbrica (pre-gen batch): copre ~50% domande senza LLM real-time
+2. Bibliotecario Flash 77%: €0.10/M token
+3. Assistente Senior 15%: modello intermedio
+4. Professore Pro 8%: solo per simulazioni esame
+COGS Rev 2.0: €20.62/studente/anno → margine lordo 79% su €99.99.
+Unit Economics conservativo: Ingestione €6 + Storage €6 + Inferenza €26 + Infra €2 = €40 COGS → margine 60%.
+Offline Intelligence: SLM on-device Anno 3+, -60-70% costi cloud.
+
+## MERCATI E RICAVI
+11 atenei telematici italiani: 3 Multiversity (CVC Capital: Pegaso, Mercatorum, San Raffaele) + 8 indipendenti. I più grandi: eCampus ~80.000 studenti, Niccolò Cusano ~30.000, Uninettuno ~18.000. Target Anno 1: Uninettuno (max ANVUR) ed eCampus.
+B2B SaaS: licenza all'università. Investimento €300k, break-even Anno 1, LTV Education €245, LTV Lifelong €800-1.200 (+5x), churn -40%.
+QWIKKEN IS FOREVER: Lifelong Learning — Università → Early Career → Mid Career → Executive → Active Aging. 45+ anni. LTV cumulativo irraggiungibile da competitor.
+
+## PIANO REALIZZAZIONE
+EGEMON Architecture: Educational GEnerative MONitor — neuro-simbolico proprietario. LLM + Knowledge Graph + Rule Engine. Quasi zero allucinazioni.
+MMS Kernel: Multi-Modal Symbolic Kernel. Pipeline deterministica: Parser → Router → Retriever → Generator → Validator.
+Il Genoma: matrice semantica 5 livelli — Governance, Domain, User, Contractual, IP. DNA del Cognitive Twin.
+ARENA: simulazioni esame adattive, active recall, 6 simulazioni/anno da 1 ora ciascuna. L3 nel Cascading.
+SENTINEL: governance XAI, audit trail immutabile, compliance AI Act EU Art.13 trasparenza.
+
+## PROPRIETÀ INTELLETTUALE
+IP Genome: Silos di Intelligence — dati aziendali segregati, elaborazione originale utente = Asset Proprietario.
+Genesis Certificate: certifica data, fonti, versione modello, livello AI vs contributo umano. Compliance AI Act EU.
+Contractual Genome: Genoma come documento contrattuale — vincoli legali, aggiornabile centralmente a tutti i tenant.
+
+## SCALABILITÀ
+Multi-Tenant su Kubernetes: auto-scaling, Redis caching, sharding PA/Enterprise. Qdrant + PostgreSQL + Neo4j + S3.
+PMI Aumentata: la PMI ottiene processi da multinazionale con Genoma pre-configurato (AI Act + GDPR).
+Cross-Industry: EGEMON domain-agnostic. Education → Credit → Legal → Healthcare → Finance. Genoma si riscrive, Kernel invariato.
+
+## WHY US
+vs ChatGPT/Copilot: allucinazioni 15-20% vs quasi zero, no struttura curricolare vs Genoma nativo, no audit vs trail completo, no AI Act vs nativa, no Twin vs persistente lifelong.
+5 Moat: Technology (MMS+Genoma), Data (Twin irriproducibile), Network (flywheel), Integration (switching cost LMS), Trust (GDPR+AI Act EU).
+Perché Ora: AI Act EU 2026 (compliance obbligatoria), Mercato Education AI $20B entro 2030, finestra ante-consolidation 18-24 mesi.
+`;
+
+  async function sendMsg() {
     const text = aiTextarea.value.trim();
     if (!text) return;
-
     const key = getApiKey();
     if (!key) return;
 
-    const userText = text;
     aiTextarea.value = '';
     aiSendBtn.disabled = true;
-
-    appendMsg('user', formatReply(userText));
-    chatHistory.push({ role: 'user', content: userText });
-
-    const typingEl = addTypingIndicator();
+    appendMsg('user', fmt(text));
+    chatHistory.push({ role: 'user', content: text });
+    const typingEl = addTyping();
 
     try {
       const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -1627,14 +1271,14 @@ La finestra si chiude. QWIKKEN deve entrare ora con il pilot da 2.000 studenti p
           'Authorization': `Bearer ${key}`,
           'Content-Type': 'application/json',
           'HTTP-Referer': 'https://qwikken.io',
-          'X-Title': 'QWIKKEN Project Presentation',
+          'X-Title': 'QWIKKEN Project Overview',
         },
         body: JSON.stringify({
-          model: aiModelSelect.value,
+          model: aiModelSel.value,
           messages: [
             {
               role: 'system',
-              content: `Sei l'assistente AI ufficiale di QWIKKEN, la piattaforma cognitive tutoring di Synthetic Data S.r.l. Rispondi in modo preciso, professionale e conciso basandoti ESCLUSIVAMENTE sulla documentazione fornita qui sotto. Se la risposta non è contenuta nella documentazione, dichiaralo esplicitamente invece di inventare. Usa il grassetto per i concetti chiave. Rispondi sempre in italiano.\n\n---\n${DOCS_CONTEXT}\n---`
+              content: `Sei l'assistente AI ufficiale di QWIKKEN (Synthetic Data S.r.l.). Rispondi in modo preciso, professionale e conciso basandoti ESCLUSIVAMENTE sulla documentazione fornita. Se la risposta non è nella documentazione, dichiaralo. Usa il grassetto per i concetti chiave. Rispondi sempre in italiano.\n\n---\n${DOCS_CONTEXT}\n---`
             },
             ...chatHistory
           ],
@@ -1646,20 +1290,19 @@ La finestra si chiude. QWIKKEN deve entrare ora con il pilot da 2.000 studenti p
       typingEl.remove();
 
       if (!resp.ok) {
-        let errMsg = `Errore HTTP ${resp.status}`;
-        try { const e = await resp.json(); errMsg = e.error?.message || errMsg; } catch {}
-        if (resp.status === 401) errMsg = 'API Key non valida. Clicca 🔑 per aggiornarla.';
-        appendMsg('assistant', errMsg);
+        let err = `Errore HTTP ${resp.status}`;
+        try { const e = await resp.json(); err = e.error?.message || err; } catch {}
+        if (resp.status === 401) err = 'API Key non valida. Clicca 🔑 per aggiornarla.';
+        appendMsg('assistant', err);
       } else {
         const data = await resp.json();
-        const reply = data.choices?.[0]?.message?.content || '(Nessuna risposta ricevuta)';
-        appendMsg('assistant', formatReply(reply));
+        const reply = data.choices?.[0]?.message?.content || '(Nessuna risposta)';
+        appendMsg('assistant', fmt(reply));
         chatHistory.push({ role: 'assistant', content: reply });
       }
-
     } catch (err) {
       typingEl.remove();
-      appendMsg('assistant', `<strong>Errore di connessione:</strong> ${err.message}`);
+      appendMsg('assistant', `<strong>Errore connessione:</strong> ${err.message}`);
     }
 
     aiSendBtn.disabled = false;
