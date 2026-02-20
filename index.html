@@ -347,7 +347,8 @@
       transition: width .28s cubic-bezier(.4,0,.2,1);
     }
 
-    .ai-panel.collapsed { width: 0; }
+    .ai-panel.collapsed  { width: 0; }
+    .ai-panel.expanded   { width: 640px; }
 
     .ai-panel-header {
       padding: 16px 14px 12px;
@@ -513,6 +514,67 @@
 
     .ai-send-btn:hover { opacity: .85; transform: translateY(-1px); }
     .ai-send-btn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+
+    .ai-stop-btn {
+      display: none; align-items: center; gap: 5px;
+      background: rgba(244,63,94,.14);
+      border: 1px solid rgba(244,63,94,.32);
+      border-radius: 7px; color: var(--rose);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px; font-weight: 700;
+      padding: 7px 13px; cursor: pointer;
+      transition: background .15s; letter-spacing: .02em;
+    }
+    .ai-stop-btn:hover { background: rgba(244,63,94,.25); }
+
+    .ai-panel-expand {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 6px; color: #64748b;
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all .15s; font-size: 11px;
+      flex-shrink: 0;
+    }
+    .ai-panel-expand:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+    /* Markdown rendering inside AI bubbles */
+    .ai-msg-bubble h4 {
+      color: #e2e8f0; font-size: 13px; font-weight: 700;
+      margin: 10px 0 5px; letter-spacing: .02em;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding-bottom: 4px;
+    }
+    .ai-msg-bubble h5 {
+      color: #cbd5e1; font-size: 12px; font-weight: 600;
+      margin: 8px 0 4px;
+    }
+    .ai-msg-bubble ul, .ai-msg-bubble ol {
+      padding-left: 16px; margin: 6px 0;
+    }
+    .ai-msg-bubble li { margin: 3px 0; font-size: 12px; color: #cbd5e1; line-height: 1.5; }
+    .ai-msg-bubble table {
+      width: 100%; border-collapse: collapse;
+      font-size: 11px; margin: 8px 0; border-radius: 6px; overflow: hidden;
+    }
+    .ai-msg-bubble th {
+      background: rgba(6,182,212,.12); color: #94a3b8;
+      padding: 5px 8px; text-align: left;
+      border: 1px solid rgba(255,255,255,.09);
+      font-weight: 600; font-size: 10px; letter-spacing: .05em; text-transform: uppercase;
+    }
+    .ai-msg-bubble td {
+      color: #cbd5e1; padding: 4px 8px;
+      border: 1px solid rgba(255,255,255,.07);
+      font-size: 11px;
+    }
+    .ai-msg-bubble tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+    .ai-msg-bubble code {
+      background: rgba(6,182,212,.1); padding: 1px 5px;
+      border-radius: 3px; font-family: 'Courier New', monospace;
+      font-size: 11px; color: var(--sky);
+    }
+    .ai-msg-bubble p { margin: 4px 0; }
 
     .ai-typing-bubble {
       display: flex; gap: 4px; align-items: center;
@@ -993,6 +1055,9 @@
       <div class="ai-panel-title">QWIKKEN AI</div>
       <div class="ai-panel-sub">Sessione Q&amp;A · Documentazione live</div>
     </div>
+    <button class="ai-panel-expand" id="ai-panel-expand" title="Espandi pannello">
+      <i class="fa-solid fa-arrows-left-right"></i>
+    </button>
     <button class="ai-panel-close" id="ai-panel-close" title="Riduci pannello">
       <i class="fa-solid fa-chevron-right"></i>
     </button>
@@ -1027,13 +1092,21 @@
         id="ai-textarea"
         placeholder="Domanda su QWIKKEN..."
         rows="3"
+        spellcheck="true"
+        lang="it"
       ></textarea>
       <div class="ai-textarea-actions">
         <span class="ai-hint-text">↵ invia &nbsp;·&nbsp; Shift+↵ a capo</span>
-        <button class="ai-send-btn" id="ai-send-btn">
-          <i class="fa-solid fa-paper-plane"></i>
-          Invia
-        </button>
+        <div style="display:flex;gap:6px">
+          <button class="ai-stop-btn" id="ai-stop-btn">
+            <i class="fa-solid fa-stop"></i>
+            Stop
+          </button>
+          <button class="ai-send-btn" id="ai-send-btn">
+            <i class="fa-solid fa-paper-plane"></i>
+            Invia
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1095,17 +1168,19 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
   // ── AI Panel — toggle ──
-  const aiPanel      = document.getElementById('ai-panel');
-  const aiToggleBtn  = document.getElementById('ai-toggle-btn');
-  const aiPanelClose = document.getElementById('ai-panel-close');
-  const aiMessages   = document.getElementById('ai-messages');
-  const aiEmpty      = document.getElementById('ai-empty');
-  const aiTextarea   = document.getElementById('ai-textarea');
-  const aiSendBtn    = document.getElementById('ai-send-btn');
-  const aiModelSel   = document.getElementById('ai-model-select');
-  const aiKeyBtn     = document.getElementById('ai-key-btn');
+  const aiPanel       = document.getElementById('ai-panel');
+  const aiToggleBtn   = document.getElementById('ai-toggle-btn');
+  const aiPanelClose  = document.getElementById('ai-panel-close');
+  const aiPanelExpand = document.getElementById('ai-panel-expand');
+  const aiMessages    = document.getElementById('ai-messages');
+  const aiEmpty       = document.getElementById('ai-empty');
+  const aiTextarea    = document.getElementById('ai-textarea');
+  const aiSendBtn     = document.getElementById('ai-send-btn');
+  const aiStopBtn     = document.getElementById('ai-stop-btn');
+  const aiModelSel    = document.getElementById('ai-model-select');
+  const aiKeyBtn      = document.getElementById('ai-key-btn');
 
-  // Panel starts open — toggle to collapse/expand
+  // Collapse / expand panel
   aiToggleBtn.addEventListener('click', () => {
     const collapsed = aiPanel.classList.toggle('collapsed');
     aiToggleBtn.classList.toggle('active', !collapsed);
@@ -1117,7 +1192,15 @@
     aiToggleBtn.classList.remove('active');
   });
 
-  // Mark button active on load (panel starts open)
+  // Widen panel to the left
+  aiPanelExpand.addEventListener('click', () => {
+    const expanded = aiPanel.classList.toggle('expanded');
+    const icon = aiPanelExpand.querySelector('i');
+    icon.className = expanded ? 'fa-solid fa-compress' : 'fa-solid fa-arrows-left-right';
+    aiPanelExpand.title = expanded ? 'Riduci larghezza' : 'Espandi pannello';
+  });
+
+  // Panel starts open
   aiToggleBtn.classList.add('active');
 
   // ── API Key ──
@@ -1140,11 +1223,16 @@
 
   // ── Chat ──
   let chatHistory = [];
+  let abortCtrl   = null;
 
   aiTextarea.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
   });
   aiSendBtn.addEventListener('click', sendMsg);
+
+  aiStopBtn.addEventListener('click', () => {
+    if (abortCtrl) abortCtrl.abort();
+  });
 
   function appendMsg(role, html) {
     aiEmpty.style.display = 'none';
@@ -1180,11 +1268,107 @@
     return wrap;
   }
 
+  // Inline formatting (bold, italic, code)
+  function inlineFmt(s) {
+    return s
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,     '<em>$1</em>')
+      .replace(/`(.+?)`/g,       '<code>$1</code>');
+  }
+
+  // Full markdown renderer for AI responses
+  function renderMarkdown(raw) {
+    // Escape HTML
+    const esc = raw
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
+    const lines = esc.split('\n');
+    const out = [];
+    let inUl = false, inOl = false;
+    let inTable = false, tableHead = true;
+
+    const closeBlocks = () => {
+      if (inUl)    { out.push('</ul>');              inUl = false; }
+      if (inOl)    { out.push('</ol>');              inOl = false; }
+      if (inTable) { out.push('</tbody></table>');   inTable = false; tableHead = true; }
+    };
+
+    for (const line of lines) {
+      // H3
+      if (/^### (.+)/.test(line)) {
+        closeBlocks();
+        out.push(`<h5>${inlineFmt(line.slice(4))}</h5>`);
+        continue;
+      }
+      // H2
+      if (/^## (.+)/.test(line)) {
+        closeBlocks();
+        out.push(`<h4>${inlineFmt(line.slice(3))}</h4>`);
+        continue;
+      }
+      // H1
+      if (/^# (.+)/.test(line)) {
+        closeBlocks();
+        out.push(`<h4>${inlineFmt(line.slice(2))}</h4>`);
+        continue;
+      }
+      // Table separator |---|---|
+      if (/^\|[-| :]+\|$/.test(line.trim())) {
+        if (inTable && tableHead) {
+          out.push('</thead><tbody>');
+          tableHead = false;
+        }
+        continue;
+      }
+      // Table row
+      if (/^\|/.test(line)) {
+        if (!inTable) {
+          closeBlocks();
+          inTable = true; tableHead = true;
+          out.push('<table><thead>');
+        }
+        const cells = line.split('|').slice(1, -1); // remove first/last empty
+        const tag = tableHead ? 'th' : 'td';
+        out.push('<tr>' + cells.map(c => `<${tag}>${inlineFmt(c.trim())}</${tag}>`).join('') + '</tr>');
+        continue;
+      }
+      // Unordered list
+      if (/^[-*] (.+)/.test(line)) {
+        if (inOl) { out.push('</ol>'); inOl = false; }
+        if (inTable) { out.push('</tbody></table>'); inTable = false; tableHead = true; }
+        if (!inUl) { out.push('<ul>'); inUl = true; }
+        out.push(`<li>${inlineFmt(line.replace(/^[-*] /, ''))}</li>`);
+        continue;
+      }
+      // Ordered list
+      if (/^\d+\. (.+)/.test(line)) {
+        if (inUl) { out.push('</ul>'); inUl = false; }
+        if (inTable) { out.push('</tbody></table>'); inTable = false; tableHead = true; }
+        if (!inOl) { out.push('<ol>'); inOl = true; }
+        out.push(`<li>${inlineFmt(line.replace(/^\d+\. /, ''))}</li>`);
+        continue;
+      }
+      // Empty line
+      if (line.trim() === '') {
+        closeBlocks();
+        out.push('<br>');
+        continue;
+      }
+      // Paragraph line
+      closeBlocks();
+      out.push(`<p>${inlineFmt(line)}</p>`);
+    }
+    closeBlocks();
+    return out.join('');
+  }
+
+  // For user messages: simple escape + bold only
   function fmt(t) {
     return t
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
       .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g,'<em>$1</em>')
       .replace(/\n/g,'<br>');
   }
 
@@ -1249,14 +1433,19 @@ Perché Ora: AI Act EU 2026 (compliance obbligatoria), Mercato Education AI $20B
     if (!key) return;
 
     aiTextarea.value = '';
-    aiSendBtn.disabled = true;
+    aiSendBtn.style.display = 'none';
+    aiStopBtn.style.display = 'flex';
+
     appendMsg('user', fmt(text));
     chatHistory.push({ role: 'user', content: text });
     const typingEl = addTyping();
 
+    abortCtrl = new AbortController();
+
     try {
       const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
+        signal: abortCtrl.signal,
         headers: {
           'Authorization': `Bearer ${key}`,
           'Content-Type': 'application/json',
@@ -1287,16 +1476,22 @@ Perché Ora: AI Act EU 2026 (compliance obbligatoria), Mercato Education AI $20B
       } else {
         const data = await resp.json();
         const reply = data.choices?.[0]?.message?.content || '(Nessuna risposta)';
-        appendMsg('assistant', fmt(reply));
+        appendMsg('assistant', renderMarkdown(reply));
         chatHistory.push({ role: 'assistant', content: reply });
       }
     } catch (err) {
       typingEl.remove();
-      appendMsg('assistant', `<strong>Errore connessione:</strong> ${err.message}`);
+      if (err.name === 'AbortError') {
+        appendMsg('assistant', '<em style="color:#475569">— Generazione interrotta —</em>');
+      } else {
+        appendMsg('assistant', `<strong>Errore connessione:</strong> ${err.message}`);
+      }
+    } finally {
+      abortCtrl = null;
+      aiStopBtn.style.display = 'none';
+      aiSendBtn.style.display = 'flex';
+      aiTextarea.focus();
     }
-
-    aiSendBtn.disabled = false;
-    aiTextarea.focus();
   }
 </script>
 
