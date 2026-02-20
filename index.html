@@ -1761,42 +1761,78 @@ Trust Tiering:
 
 Processo di Certificazione: Validazione pre-pubblicazione → Scansione sicurezza (no malware/backdoor/data exfiltration) → Verifica GDPR e assenza bias → Firma digitale + timestamping crittografico.
 
-## ANALISI DEI COSTI
-Model Cascading Rev 2.0 — 4 livelli:
-1. Fabbrica (pre-gen batch): copre ~50% domande senza LLM real-time
-2. Bibliotecario Flash 77%: €0.10/M token
-3. Assistente Senior 15%: modello intermedio
-4. Professore Pro 8%: solo per simulazioni esame
-COGS Rev 2.0: €20.62/studente/anno → margine lordo 79% su €99.99.
-Unit Economics conservativo: Ingestione €6 + Storage €6 + Inferenza €26 + Infra €2 = €40 COGS → margine 60%.
-Offline Intelligence: SLM on-device Anno 3+, -60-70% costi cloud.
+## ANALISI DEI COSTI — Architettura OIOD Rev 2.0 (Prezzi Reali Febbraio 2026)
+Architettura a 4 strati con prezzi reali Google confermati febbraio 2026:
+- Strato 1 — LA FABBRICA (Gemini 2.5 Pro Batch API -50%): pre-genera 36.000 artefatti didattici offline per 6 corsi. Costo per corso intero: €148. Ammortizzato su 2.000 studenti: €0.07/studente. Batch API dimezza i costi rispetto al runtime.
+- Strato 2 — IL BIBLIOTECARIO (Gemini 2.0 Flash + doppio caching): 77% interazioni. Context Caching -90% input + Semantic Cache -40% chiamate. Costo: €0.81/studente/anno (da €6.40 senza caching = riduzione 87%).
+- Strato 3 — L'ASSISTENTE SENIOR (Gemini 3 Flash): 15% interazioni, escalation media. €1.88/studente/anno. Introdotto Rev 2.0 come buffer tra Bibliotecario e Professore: gap 20x rimosso.
+- Strato 4 — IL PROFESSORE (Gemini 3 Pro + context caching): 8% interazioni, solo reasoning genuino e cross-concept. €4.56/studente/anno.
+COGS Rev 2.0 totale/studente/anno: Ingestione €5.00 + Storage €6.50 + Fabbrica €0.07 + Inferenza €7.25 + Infra €1.80 = €20.62. Margine lordo 79% su prezzo €99.99.
+Architettura attuale (senza OIOD): COGS €40, margine 60%. Con Rev 1.0: COGS €27.10, margine 73%. Miglioramento Rev 2.0: -48% COGS, +19pp margine.
+Learning Loop: a regime (mese 12+) il COGS inferenza scende a €3.60/studente grazie alla promozione delle risposte migliori ad artefatti. COGS totale converge verso €14-16, margine 84-86%.
+Proiezione 5 anni: 2026 €20.62 (79%), 2027 €16 (84%), 2028 €12 (88%), 2029 €9 (91%), 2030 €7 (93%) su 100.000 studenti.
+Resilienza: anche con +100% costi LLM, margine rimane al 72% (vs 34% senza OIOD). Struttura 85% fissa + 15% variabile.
+Pilot CEPO Multiversity (200 studenti): €75 una tantum (Fabbrica) + €15-30/mese overflow = ~€165 per 3 mesi. Free tier Google AI Studio copre Bibliotecario + Assistente Senior senza costi.
+Pilot 2.000 studenti (piano completo): budget totale €85.513 — di cui 87% (€74.588) è team già in organico. Costi incrementali vivi: solo €5.205. Cowork + Claude Code riducono lo sviluppo del 67%: da 750h a 245h, risparmiando €17.956 (mancata assunzione).
 
-## MERCATI E RICAVI
-11 atenei telematici italiani: 3 Multiversity (CVC Capital: Pegaso, Mercatorum, San Raffaele) + 8 indipendenti. I più grandi: eCampus ~80.000 studenti, Niccolò Cusano ~30.000, Uninettuno ~18.000. Target Anno 1: Uninettuno (max ANVUR) ed eCampus.
-B2B SaaS: licenza all'università. Investimento €300k, break-even Anno 1, LTV Education €245, LTV Lifelong €800-1.200 (+5x), churn -40%.
-QWIKKEN IS FOREVER: Lifelong Learning — Università → Early Career → Mid Career → Executive → Active Aging. 45+ anni. LTV cumulativo irraggiungibile da competitor.
+## MERCATI E RICAVI — Target, LTV e Modello Forever
+Mercato primario: 11 atenei telematici italiani riconosciuti MUR, 322.000 studenti totali. 3 Multiversity (CVC Capital: Pegaso, Mercatorum, San Raffaele) + 8 indipendenti. I più grandi: eCampus ~80.000, Niccolò Cusano ~30.000, Uninettuno ~18.000. Target Anno 1: Uninettuno (max ANVUR) + eCampus. Problema comune: drop-out 40%, tutoring umano insostenibile, pressione AI Act.
+Modello B2B2C: Synthetic Data vende licenza SaaS all'ateneo → studente riceve QWIKKEN a €99.99/anno. Seed €300K, MVP pronto M6, primo contratto M5, 1.500 studenti M9, break-even M12 a 3.040 studenti attivi.
+LTV per scenario:
+- Education Only (3 anni, churn 10%): LTV €245
+- Education + Early Career (8 anni, churn 8%): LTV €580
+- Full Lifelong (20+ anni, churn 5%): LTV €1.200+
+- Premium Lifelong + K-Store (25+ anni, ARPU €149 + Acceleratori, churn 3%): LTV €2.500+
+QWIKKEN IS FOREVER: visione Lifelong Learning 45+ anni — Università (19-25) → Early Career (25-35) → Mid Career (35-50) → Senior/Executive (50-65) → Active Aging (65+). Il Cognitive Twin non si "laurea" mai: il Knowledge Graph personale cresce, si raffina e si "pota" nel tempo come asset cumulativo irriproducibile.
+La PKL (Personal Knowledge Library) non è statica: rete proattiva che acquisisce Acceleratori Cognitivi dal K-Store e li proietta sul profilo cognitivo unico dell'utente (livelli L1-L4). Traccia non solo cosa hai studiato ma come lo capisci: il moat inattaccabile.
+Data Moat: nessun competitor può replicare 10+ anni di profilo cognitivo personale. Switching cost crescente (lock-in positivo: investimento che cresce). Churn -40% rispetto a competitor per personalizzazione irraggiungibile.
+Valuation scenario Lifelong + K-Store: LTV medio €1.200-1.800 (+5-7x vs €245 base), revenue multiple 12-18x ARR, Valuation Anno 5 €70-120M (vs €30-50M scenario base Education Only).
+Comparable: Duolingo LTV €150-300 (15-20x), LinkedIn Premium LTV €500-1.000 (10-15x), Coursera LTV €200-500 (8-12x), QWIKKEN target LTV €1.200-1.800 (12-18x) con deep personalization + Knowledge Graph integrato.
+Scenario commerciale post-pilot: 5.000 studenti (€500K, 79%), 15.000 studenti (€1.5M, 84%), 45.000 studenti (€4.5M, 88%).
 
-## PIANO REALIZZAZIONE
-EGEMON Architecture: Educational GEnerative MONitor — neuro-simbolico proprietario. LLM + Knowledge Graph + Rule Engine. Quasi zero allucinazioni.
-MMS Kernel: Multi-Modal Symbolic Kernel. Pipeline deterministica: Parser → Router → Retriever → Generator → Validator.
-Il Genoma: matrice semantica 5 livelli — Governance, Domain, User, Contractual, IP. DNA del Cognitive Twin.
-ARENA: simulazioni esame adattive, active recall, 6 simulazioni/anno da 1 ora ciascuna. L3 nel Cascading.
-SENTINEL: governance XAI, audit trail immutabile, compliance AI Act EU Art.13 trasparenza.
+## PIANO REALIZZAZIONE — Anno 1 (2026) e Stack Tecnologico
+Budget seed: €300.000 (Gennaio 2026). Team 5 FTE: CEO/Founder €60K, CTO/Tech Lead €55K, Full Stack Dev €45K, ML/AI Engineer €50K, Product/CS €40K.
+4 fasi Anno 1:
+- FASE 1 Foundation (M1-M3): recruiting team, setup infra GCP, pipeline 3 università, LOI firmata M3, contratto M5.
+- FASE 2 Build (M3-M6): SENSORIUM MVP (ingestione/parsing documenti → Knowledge Graph), SYNAPSE base (grafo queryable), SOCRATES v1 (conversazione maieutica), LMS connector SSO + grade sync. Demo completa M6.
+- FASE 3 Pilot (M7-M9): deploy produzione, coorte 500 → 1.500 studenti, NPS >30, ARENA v1 (simulazione esame con previsione voto).
+- FASE 4 Scale (M10-M12): 8.000 studenti attivi, break-even EBITDA mensile, pipeline 3 università Anno 2.
+Stack tecnico: Google Cloud Run (auto-scaling, 1-10 istanze), Cloud SQL PostgreSQL + pgvector (semantic search), Memorystore Redis (context cache), Cloud Storage (artefatti JSON + documenti), Firebase Auth (SSO, gratis <50K utenti). Architettura OIOD 4-strati.
+MMS Kernel (EGEMON): orchestra LLM come commodity intercambiabile. Pipeline deterministica: CORTEX (intent translation) → Router 4-strati → Retriever (Fabbrica/pgvector) → Generator (LLM strato corretto) → Validator (SENTINEL).
+Il Genoma 5 livelli: Governance (policy etiche, limiti), Domain (competenze disciplinari), User (profilo DCA studente), Contractual (vincoli legali ateneo), IP (regole proprietà). Configurabile senza codice via genome.yaml.
+12 moduli già operativi (QWIKKEN BASE Rev 5.0): DOC (Syllabus), Lecture Weaver, Web Scout, Tutor, Socrates AI, Nexus Graph, Test Quiz, Simulazione Esame, Life Planner, Tesi, Linguistic Gym, Panic Mode. Non è MVP né PowerPoint: è online.
+SENTINEL: governance XAI, audit trail immutabile, compliance AI Act EU Art.13 trasparenza. Genesis Certificate anti-ghostwriting.
+Moduli OIOD attivi nel pilot: DOC (P0), Tutor (P0), Socrates AI (P0), Quiz (P0), Simulazione Esame (P1), Life Planner (P2), Nexus Graph (P2).
 
-## PROPRIETÀ INTELLETTUALE
-IP Genome: Silos di Intelligence — dati aziendali segregati, elaborazione originale utente = Asset Proprietario.
-Genesis Certificate: certifica data, fonti, versione modello, livello AI vs contributo umano. Compliance AI Act EU.
-Contractual Genome: Genoma come documento contrattuale — vincoli legali, aggiornabile centralmente a tutti i tenant.
+## PROPRIETÀ INTELLETTUALE — Framework IP Tridimensionale
+Principio fondante: Sovereignty by Architecture. La protezione IP è architettonica, non contrattuale. Le violazioni sono impossibili, non solo punibili.
+3 assi della tassonomia IP:
+- Asse 1 Personal vs Corporate: PS-IP (Personal Sovereign IP = "Il Metodo") appartiene all'individuo — algoritmi decisionali, stili leadership, framework analisi, soft skills codificate, network. È portabile, accumulabile, difendibile. CS-IP (Corporate Sovereign IP = "Il Merito") appartiene all'azienda — dati clienti, bilanci, segreti industriali, best practices collettive. È territoriale, contestuale, collettiva. Metafora: il falegname porta i propri attrezzi (PS-IP) ma lascia il mobile costruito e il legno (CS-IP).
+- Asse 2 Author vs Client (Marketplace): Author Sovereign IP = "DNA della Capsula" — prompt di sistema, alberi decisionali, euristiche. Protetto da Black Box Execution: il cliente vede input/output, non il codice. Client Sovereign IP = "Carburante e Risultato" — input (dati ERP, bilanci) + Synthesized IP (piani strategici, report generati). Il cliente paga per il risultato → possiede il risultato. Report già generati restano di proprietà dell'azienda anche se l'abbonamento scade.
+- Asse 3 Evolutionary IP (la Zona Grigia): chi possiede l'euristica emergente dall'uso su 50 aziende? (es. "rinegoziare pagamenti a 60gg in tempi di inflazione" scoperta dall'uso del Virtual CFO). Questione architettuale, non legale.
+Genesis Certificate: firma digitale immutabile che certifica data, fonti usate, versione modello LLM, proporzione AI vs contributo umano. ANVUR-ready, Garante Privacy-ready, AI Act EU compliant.
+Contractual Genome: il Genoma funziona come documento contrattuale dinamico — le policy etiche si aggiornano centralmente e si propagano a tutti i tenant istantaneamente.
+IP Silos di Intelligence: dati di ogni ateneo/studente completamente segregati. Ogni elaborazione originale dell'utente diventa Asset Proprietario protetto e non usabile per training di modelli esterni.
 
-## SCALABILITÀ
-Multi-Tenant su Kubernetes: auto-scaling, Redis caching, sharding PA/Enterprise. Qdrant + PostgreSQL + Neo4j + S3.
-PMI Aumentata: la PMI ottiene processi da multinazionale con Genoma pre-configurato (AI Act + GDPR).
-Cross-Industry: EGEMON domain-agnostic. Education → Credit → Legal → Healthcare → Finance. Genoma si riscrive, Kernel invariato.
+## SCALABILITÀ — One Engine, Many Genomes
+Principio architetturale: separazione totale tra MMS Kernel (codice sorgente unico centralizzato) e Genoma (configurazione per tenant). Una patch sicurezza al Kernel beneficia automaticamente tutti i tenant. Un nuovo vertical richiede solo la definizione del genome.yaml, zero sviluppo software.
+Container segregati per tenant: separazione a livello infrastrutturale, non solo applicativo. Anche un bug nel codice non può causare data leak tra tenant — i container sono fisicamente separati.
+genome.yaml: definisce tutti e 5 i livelli del Genoma (Governance, Domain, User, Contractual, IP). Personalizzazione completa senza accesso al codice sorgente. Un partner di canale può creare nuovi verticali autonomamente.
+Cross-Industry: stessa piattaforma tecnologica per settori radicalmente diversi. Education → Credit → Legal → Healthcare → Finance → Manufacturing. Un ospedale usa il Twin per diagnosi, una banca per rischio creditizio, un'industria per supply chain: tutti con lo stesso Kernel, Genomi diversi.
+L'Azienda Aumentata: con Capsule Gestionali (Virtual C-Suite), la PMI diventa organismo autocorrettivo. Virtual CFO (cash flow alert proattivi: "Se paghi oggi, vai in rosso tra 14 giorni"), Virtual COO (lean management, colli di bottiglia), Virtual CMO, Virtual Compliance Officer (Bilancio di Sostenibilità GRI). PMI da 50 dipendenti con processi da multinazionale — il divario competitivo basato sulle risorse manageriali si riduce.
+Rilevamento automatico inefficienze: il Twin non aspetta la domanda giusta ma cerca attivamente pattern anomali (margini in calo, costi in crescita, ritardi ricorrenti). Alert proattivi con insight actionable.
+Stack infra scalabile: Google Cloud Run (auto-scaling 1→1000 istanze), PostgreSQL + pgvector, Redis Memorystore, Firebase Auth (free tier fino a 50K utenti). Upgrade infra da €150/mese (pilot) a pagato per produzione.
 
-## WHY US
-vs ChatGPT/Copilot: allucinazioni 15-20% vs quasi zero, no struttura curricolare vs Genoma nativo, no audit vs trail completo, no AI Act vs nativa, no Twin vs persistente lifelong.
-5 Moat: Technology (MMS+Genoma), Data (Twin irriproducibile), Network (flywheel), Integration (switching cost LMS), Trust (GDPR+AI Act EU).
-Perché Ora: AI Act EU 2026 (compliance obbligatoria), Mercato Education AI $20B entro 2030, finestra ante-consolidation 18-24 mesi.
+## WHY US — 8 Pilastri del Vantaggio Competitivo
+1. Non siamo un wrapper su LLM: siamo un Sistema Operativo Cognitivo (MMS). L'LLM è commodity intercambiabile (Gemini → Claude → Llama con fallback automatico). Allucinazioni competitor 15-20% vs QWIKKEN quasi zero grazie all'Axiomatic Kernel su contenuti verificati.
+2. Il prodotto esiste: QWIKKEN BASE Rev 5.0 online con 12 moduli operativi. Non PowerPoint, non mockup. Il pilot 2.000 studenti è un progetto di scalatura, non di costruzione.
+3. Struttura costi SaaS, non da startup AI: COGS €20.62 vs competitor €40-60. Margine 79% vs competitor 30-50%. Struttura 85% fissa — i costi marginali tendono a zero con la Fabbrica.
+4. La maieutica è ingegnerizzata: SOCRATES non è un "prompt clever" ma sistema bipartito con DCA 4 livelli (L1-L4), alberi socratici pre-generati con branching adattivo, feedback calibrato per distrattore, Learning Loop.
+5. Conosciamo il mercato dall'interno: 11 atenei, 322.000 studenti, 3 stakeholder con dolori specifici. Rettore: drop-out 40% + compliance AI Act. Docente: sovraccarico + dual-use (didattica + consulenza). Studente: solitudine + ansia pre-esame.
+6. Compliance by design: AI Act EU 2024/1689 (educazione = rischio limitato con requisiti specifici), XAI Logs esportabili ANVUR, SENTINEL anti-ghostwriting certificato, GDPR Tenant Isolation, Row-Level Security. Non by retrofit.
+7. 5 FTE = 9 output: Cowork + Claude Code come moltiplicatori di forza sistematici. -67% ore sviluppo. Risparmio netto €17.956 vs assunzione aggiuntiva. Claude Max (Cowork) si ripaga 8x.
+8. 5 Moat strutturali: Technology (MMS+Genoma brevettabile, non replicabile), Data (Twin cognitivo 10+ anni irriproducibile), Network (flywheel Knowledge Graph), Integration (switching cost LMS/SSO crescente), Trust (GDPR+AI Act EU nativi).
+Perché Ora: AI Act EU 2026 obbligo compliance → gli atenei cercano attivamente fornitori compliance-ready. Mercato Education AI $20B entro 2030. Finestra ante-consolidation 18-24 mesi. Unicorn italiana first-mover.
 `;
 
   async function sendMsg() {
