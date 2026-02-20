@@ -681,6 +681,17 @@
     }
     .ai-panel-read:hover { background: rgba(6,182,212,.14); color: var(--sky); border-color: rgba(6,182,212,.3); }
 
+    .ai-panel-reset {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 6px; color: #64748b;
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all .15s; font-size: 11px;
+      flex-shrink: 0;
+    }
+    .ai-panel-reset:hover { background: rgba(244,63,94,.12); color: var(--rose); border-color: rgba(244,63,94,.28); }
+
     /* ── COPY BUTTON on AI messages ── */
     .msg-copy-btn {
       display: none;
@@ -1241,6 +1252,9 @@
       <div class="ai-panel-title">QWIKKEN AI</div>
       <div class="ai-panel-sub">Sessione Q&amp;A · Documentazione live</div>
     </div>
+    <button class="ai-panel-reset" id="ai-panel-reset" title="Nuova sessione">
+      <i class="fa-solid fa-rotate-left"></i>
+    </button>
     <button class="ai-panel-read" id="ai-panel-read" title="Apri Modalità Lettura">
       <i class="fa-solid fa-book-open"></i>
     </button>
@@ -1489,6 +1503,16 @@
     const icon = aiPanelExpand.querySelector('i');
     icon.className = expanded ? 'fa-solid fa-compress' : 'fa-solid fa-arrows-left-right';
     aiPanelExpand.title = expanded ? 'Riduci larghezza' : 'Espandi pannello';
+  });
+
+  // Reset session button
+  document.getElementById('ai-panel-reset').addEventListener('click', () => {
+    if (chatHistory.length === 0) return;
+    if (!confirm('Cancellare la conversazione e iniziare una nuova sessione?')) return;
+    chatHistory = [];
+    aiMessages.innerHTML = '';
+    aiMessages.appendChild(aiEmpty);
+    aiEmpty.style.display = 'flex';
   });
 
   // Reading Mode button
