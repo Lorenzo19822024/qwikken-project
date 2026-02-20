@@ -1255,9 +1255,9 @@
   <div class="ai-model-bar">
     <span class="ai-model-label">Modello:</span>
     <select class="ai-model-select" id="ai-model-select">
-      <option value="anthropic/claude-opus-4.6" selected>Claude Opus 4.6</option>
-      <option value="anthropic/claude-haiku-4-5-20251001">Claude Haiku 4.5 (fast)</option>
-      <option value="google/gemini-flash-1.5">Gemini Flash (budget)</option>
+      <option value="anthropic/claude-haiku-4-5-20251001" selected>Haiku 4.5 ⚡ (veloce)</option>
+      <option value="anthropic/claude-opus-4.6">Opus 4.6 ✦ (qualità)</option>
+      <option value="google/gemini-flash-1.5">Gemini Flash (economico)</option>
     </select>
     <button class="ai-key-btn" id="ai-key-btn" title="Imposta API Key">
       <i class="fa-solid fa-key"></i>
@@ -1740,9 +1740,24 @@ Perché Ora: AI Act EU 2026 (compliance obbligatoria), Mercato Education AI $20B
 
     appendMsg('user', fmt(text));
     chatHistory.push({ role: 'user', content: text });
-    const typingEl = addTyping();
+
+    // Create the assistant bubble immediately with typing dots
+    aiEmpty.style.display = 'none';
+    const wrap = document.createElement('div');
+    wrap.className = 'ai-msg assistant';
+    const av = document.createElement('div');
+    av.className = 'ai-msg-avatar';
+    av.innerHTML = '<i class="fa-solid fa-robot"></i>';
+    const bbl = document.createElement('div');
+    bbl.className = 'ai-msg-bubble ai-typing-bubble';
+    bbl.innerHTML = '<span></span><span></span><span></span>';
+    wrap.appendChild(av);
+    wrap.appendChild(bbl);
+    aiMessages.appendChild(wrap);
+    aiMessages.scrollTop = aiMessages.scrollHeight;
 
     abortCtrl = new AbortController();
+    let fullText = '';
 
     try {
       const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -1756,6 +1771,7 @@ Perché Ora: AI Act EU 2026 (compliance obbligatoria), Mercato Education AI $20B
         },
         body: JSON.stringify({
           model: aiModelSel.value,
+          stream: true,
           messages: [
             {
               role: 'system',
@@ -1768,25 +1784,67 @@ Perché Ora: AI Act EU 2026 (compliance obbligatoria), Mercato Education AI $20B
         })
       });
 
-      typingEl.remove();
-
       if (!resp.ok) {
         let err = `Errore HTTP ${resp.status}`;
         try { const e = await resp.json(); err = e.error?.message || err; } catch {}
         if (resp.status === 401) err = 'API Key non valida. Clicca 🔑 per aggiornarla.';
-        appendMsg('assistant', err);
-      } else {
-        const data = await resp.json();
-        const reply = data.choices?.[0]?.message?.content || '(Nessuna risposta)';
-        appendMsg('assistant', renderMarkdown(reply), reply);
-        chatHistory.push({ role: 'assistant', content: reply });
+        bbl.className = 'ai-msg-bubble';
+        bbl.innerHTML = err;
+        return;
       }
+
+      // Stream: read SSE chunks
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      bbl.className = 'ai-msg-bubble';
+      bbl.innerHTML = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop(); // keep incomplete line
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed === 'data: [DONE]') continue;
+          if (trimmed.startsWith('data: ')) {
+            try {
+              const parsed = JSON.parse(trimmed.slice(6));
+              const delta = parsed.choices?.[0]?.delta?.content || '';
+              if (delta) {
+                fullText += delta;
+                bbl.innerHTML = renderMarkdown(fullText);
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+              }
+            } catch {}
+          }
+        }
+      }
+
+      // Finalize: add copy button and save to history
+      if (fullText) {
+        chatHistory.push({ role: 'assistant', content: fullText });
+        const cpBtn = document.createElement('button');
+        cpBtn.className = 'msg-copy-btn';
+        cpBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copia';
+        cpBtn.addEventListener('click', e => { e.stopPropagation(); copyText(fullText, cpBtn); });
+        bbl.appendChild(cpBtn);
+      }
+
     } catch (err) {
-      typingEl.remove();
       if (err.name === 'AbortError') {
-        appendMsg('assistant', '<em style="color:#475569">— Generazione interrotta —</em>');
+        if (fullText) {
+          bbl.innerHTML = renderMarkdown(fullText) + '<em style="display:block;margin-top:8px;color:#475569;font-size:11px">— Interrotto —</em>';
+          chatHistory.push({ role: 'assistant', content: fullText });
+        } else {
+          bbl.className = 'ai-msg-bubble';
+          bbl.innerHTML = '<em style="color:#475569">— Generazione interrotta —</em>';
+        }
       } else {
-        appendMsg('assistant', `<strong>Errore connessione:</strong> ${err.message}`);
+        bbl.className = 'ai-msg-bubble';
+        bbl.innerHTML = `<strong>Errore connessione:</strong> ${err.message}`;
       }
     } finally {
       abortCtrl = null;
